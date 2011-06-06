@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localSearchSolver>
+    <environmentMode>PRODUCTION</environmentMode>
+    <scoreDrl>/scoreRules.drl</scoreDrl>
+    <scoreDefinition>
+        <scoreDefinitionType>HARD_AND_SOFT</scoreDefinitionType>
+    </scoreDefinition>
+    <termination>
+        <terminationCompositionStyle>OR</terminationCompositionStyle>
+        <maximumUnimprovedStepCount>1000</maximumUnimprovedStepCount>
+        <scoreAttained>0hard/0soft</scoreAttained>
+    </termination> 
+    <acceptor>
+      <simulatedAnnealingStartingTemperature>0hard/20soft</simulatedAnnealingStartingTemperature>
+    </acceptor>
+    <forager>
+        <minimalAcceptedSelection>4</minimalAcceptedSelection>
+    </forager>    
+    <selector>
+      <selector>
+          <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
+      </selector>
+      <selector>
+          <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
+      </selector>
+    </selector>
+    <startingSolutionInitializerClass>org.drools.planner.examples.tournaments.SolutionInitializer</startingSolutionInitializerClass>
+</localSearchSolver>

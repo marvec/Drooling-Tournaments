@@ -1,0 +1,43 @@
+package cz.csf.tournaments;
+
+import org.drools.planner.core.score.calculator.HardAndSoftConstraintScoreCalculator;
+import org.drools.planner.examples.tournaments.model.Match;
+import org.drools.planner.examples.tournaments.model.Team;
+
+global HardAndSoftConstraintScoreCalculator scoreCalculator;
+
+declare Metainfo
+    distance: Integer
+    underruns: Integer
+end 
+
+rule "Identify the calculated distances"
+    when
+        $t: Team()
+    then
+        insertLogical(
+            new Metainfo(Match.getSpanOverhead($t), Match.getUnderruns($t))
+        );
+end
+
+rule "Hard score means how many teams have matches directly adjacent"
+    when
+        $total : Number () 
+             from accumulate(
+                Metainfo( $distance : underruns, underruns > 0 ),
+                sum($distance)
+             )
+    then
+        scoreCalculator.setHardConstraintsBroken($total.intValue());
+end
+
+rule "Soft score is a sum of calculated maximum slot distances"
+    when
+        $total : Number () 
+             from accumulate(
+                Metainfo( $distance : distance, distance > 0),
+                sum($distance)
+             )
+    then
+        scoreCalculator.setSoftConstraintsBroken($total.intValue());
+end
