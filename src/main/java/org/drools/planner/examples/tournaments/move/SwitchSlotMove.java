@@ -1,10 +1,9 @@
 package org.drools.planner.examples.tournaments.move;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.Collection;
 import org.drools.WorkingMemory;
 import org.drools.planner.core.move.Move;
+import org.drools.planner.examples.tournaments.Util;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Slot;
 import org.drools.planner.examples.tournaments.model.Team;
@@ -72,13 +71,10 @@ public class SwitchSlotMove implements Move {
         Slot s = match1.getSlot();
         match1.setSlot(match2.getSlot());
         match2.setSlot(s);
-        Set<Team> teams = new HashSet<Team>();
-        teams.addAll(match1.getTeams());
-        teams.addAll(match2.getTeams());
-        for (Team t: teams) {
-            FactHandle fh = arg0.getFactHandle(t);
-            arg0.update(fh, t);
-        }
+        FactHandle fh = arg0.getFactHandle(match1);
+        arg0.update(fh, match1);
+        fh = arg0.getFactHandle(match2);
+        arg0.update(fh, match2);
     }
 
     public boolean isMoveDoable(WorkingMemory arg0) {
@@ -89,7 +85,31 @@ public class SwitchSlotMove implements Move {
             // switching matches in the same time slot doesn't help us
             return false;
         }
-        return match1.isSwitchPossible(match2);
+        Collection<Match> matches = Util.getMatches(arg0);
+        matches.remove(match1);
+        matches.remove(match2);
+        return isPossible(match1, match2.getSlot(), matches) && isPossible(match2, match1.getSlot(), matches);
+    }
+
+    private boolean isPossible(Match m, Slot s, Collection<Match> matches) {
+        for (Match m2 : matches) {
+            if (m2.equals(m)) {
+                continue; // the same match
+            }
+            // the slot is already taken
+            if (m2.getSlot().equals(s)) return false;
+            // if none of the teams play in this match, ignore the match
+            boolean cntd = true;
+            for (Team t: m.getTeams()) {
+                if (m2.getTeams().contains(t)) cntd = false;
+            }
+            if (cntd) continue;
+            // one of the teams play; make sure slot number doesn't conflict 
+            if (s.getNumber() == m2.getSlot().getNumber()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

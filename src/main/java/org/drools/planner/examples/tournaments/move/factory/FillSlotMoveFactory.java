@@ -20,13 +20,13 @@ public class FillSlotMoveFactory extends CachedMoveFactory {
     public List<Move> createCachedMoveList(@SuppressWarnings("rawtypes") Solution arg0) {
         TournamentsSolution sol = (TournamentsSolution) arg0;
         // get some boundaries
-        double idealMatchesPerCourt = Math.ceil(Match.getAll().size() / sol.getCourts().size());
+        double idealMatchesPerCourt = Math.ceil(sol.getAllMatches().size() / sol.getCourts().size());
         double allowedMatchesPerCourt = idealMatchesPerCourt * (1 + MAX_SLOT_OVERFLOW_RATE);
         Integer upperBound = (int)Math.round(allowedMatchesPerCourt);
         Integer lowerBound = 0;
         // execute against those
         List<Move> moves = new LinkedList<Move>();
-        for (Match m1 : Match.getAll()) {
+        for (Match m1 : sol.getAllMatches()) {
             for (Court c: sol.getCourts()) {
                 for (int i = lowerBound; i < upperBound; i++) {
                     moves.add(new FillSlotMove(m1, new Slot(c, i)));

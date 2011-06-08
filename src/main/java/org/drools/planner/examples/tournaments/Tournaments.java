@@ -69,7 +69,7 @@ public final class Tournaments {
             System.out.println();
             for (Team t : sol.getTeams()) {
                 System.out.println("Schedule for " + t + ":");
-                for (Match m : Match.getAll()) {
+                for (Match m : sol.getAllMatches()) {
                     if (m.getTeams().contains(t)) {
                         System.out.println("  " + m.getTeams() + " @ " + m.getSlot());
                     }
@@ -98,7 +98,7 @@ public final class Tournaments {
             for (Team t: sol.getTeams()) {
                 // gather all matches for a given team
                 Set<Match> matches = new HashSet<Match>();
-                for (Match m: Match.getAll()) {
+                for (Match m: sol.getAllMatches()) {
                     if (!m.getTeams().contains(t)) continue;
                     matches.add(m);
                 }
@@ -135,11 +135,11 @@ public final class Tournaments {
         private void outputCSV(TournamentsSolution sol) throws Exception {
             // sort all the matches
             Map<Court, Match[]> matches = new HashMap<Court, Match[]>();
-            for (Match m : Match.getAll()) {
+            for (Match m : sol.getAllMatches()) {
                 Court c = m.getSlot().getCourt();
                 int position = m.getSlot().getNumber();
                 if (!matches.containsKey(c)) {
-                    matches.put(c, new Match[Match.getAll().size()]);
+                    matches.put(c, new Match[sol.getAllMatches().size()]);
                 }
                 matches.get(c)[position] = m;
             }
@@ -149,12 +149,12 @@ public final class Tournaments {
             outputSpecificCSV(matches.entrySet(), new File(System.getProperty("user.dir"), "ALL.csv"));
             for (Team t : sol.getTeams()) {
                 Map<Court, Match[]> teamMatches = new HashMap<Court, Match[]>();
-                for (Match m : Match.getAll()) {
+                for (Match m : sol.getAllMatches()) {
                     if (!m.getTeams().contains(t)) continue;
                     Court c = m.getSlot().getCourt();
                     int position = m.getSlot().getNumber();
                     if (!teamMatches.containsKey(c)) {
-                        teamMatches.put(c, new Match[Match.getAll().size()]);
+                        teamMatches.put(c, new Match[sol.getAllMatches().size()]);
                     }
                     teamMatches.get(c)[position] = m;
                 }

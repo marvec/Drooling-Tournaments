@@ -1,7 +1,10 @@
 package org.drools.planner.examples.tournaments.move;
 
+import java.util.Collection;
+
 import org.drools.WorkingMemory;
 import org.drools.planner.core.move.Move;
+import org.drools.planner.examples.tournaments.Util;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Slot;
 import org.drools.planner.examples.tournaments.model.Team;
@@ -78,17 +81,27 @@ public class FillSlotMove implements Move {
 
     public void doMove(WorkingMemory arg0) {
         match1.setSlot(newSlot);
-        for (Team t: match1.getTeams()) {
-            FactHandle fh1 = arg0.getFactHandle(t);
-            arg0.update(fh1, t);
-        }
+        FactHandle fh1 = arg0.getFactHandle(match1);
+        arg0.update(fh1, match1);
     }
-
+    
     public boolean isMoveDoable(WorkingMemory arg0) {
         if (match1.getSlot().equals(newSlot)) {
             return false;
         }
-        return match1.isPushPossible(newSlot);
+        Collection<Match> matches = Util.getMatches(arg0);
+        matches.remove(match1);
+        for (Match m: matches) {
+            // slot already filled
+            if (m.getSlot().equals(newSlot)) return false;
+            // some of the other courts may have teams conflicting
+            if (m.getSlot().getNumber() == newSlot.getNumber()) {
+                for (Team t: match1.getTeams()) {
+                    if (m.getTeams().contains(t)) return false;
+                }
+            }
+        }
+        return true;
     }
 
 }

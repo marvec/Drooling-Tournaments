@@ -1,5 +1,8 @@
 package org.drools.planner.examples.tournaments;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.drools.planner.core.solution.initializer.StartingSolutionInitializer;
@@ -17,6 +20,22 @@ public class SolutionInitializer implements StartingSolutionInitializer {
     private TournamentsSolution getSolution(AbstractSolverScope arg0) {
         return (TournamentsSolution)arg0.getWorkingSolution();
     }
+    
+    private boolean isPossible(Match m, Slot s, Collection<Match> matches) {
+        List<Match> ms = new ArrayList<Match>(matches);
+        ms.remove(m);
+        for (Match m2: ms) {
+            // slot already filled
+            if (m2.getSlot().equals(s)) return false;
+            // some of the other courts may have teams conflicting
+            if (m2.getSlot().getNumber() == s.getNumber()) {
+                for (Team t: m.getTeams()) {
+                    if (m2.getTeams().contains(t)) return false;
+                }
+            }
+        }
+        return true;
+    }
 
     public void initializeSolution(AbstractSolverScope arg0) {
         // generate matches between the teams
@@ -31,11 +50,11 @@ public class SolutionInitializer implements StartingSolutionInitializer {
                     continue;
                 }
                 // prepare the match
-                Match m = Match.get(a, b);
+                Match m = getSolution(arg0).addMatch(a, b);
                 for (int slotNum = startingSlotNum;; slotNum++) {
                     for (Court c : getSolution(arg0).getCourts()) {
                         Slot s = new Slot(c, slotNum);
-                        if (m.isPossible(s)) {
+                        if (isPossible(m, s, getSolution(arg0).getAllMatches())) {
                             m.setSlot(s);
                             break;
                         }
@@ -47,6 +66,7 @@ public class SolutionInitializer implements StartingSolutionInitializer {
                         startingSlotNum = slotNum + 1;
                     }
                 }
+                arg0.getWorkingMemory().insert(m);
             }
             arg0.getWorkingMemory().insert(a);
         }

@@ -1,4 +1,4 @@
-package cz.csf.tournaments;
+package org.drools.planner.examples.tournaments;
 
 import org.drools.planner.core.score.calculator.HardAndSoftConstraintScoreCalculator;
 import org.drools.planner.examples.tournaments.model.Match;
@@ -6,38 +6,56 @@ import org.drools.planner.examples.tournaments.model.Team;
 
 global HardAndSoftConstraintScoreCalculator scoreCalculator;
 
-declare Metainfo
-    distance: Integer
-    underruns: Integer
-end 
+declare Overhead
+    num: Integer
+end
 
-rule "Identify the calculated distances"
+declare Distance
+    num: Integer
+end
+
+rule "Get underruns per team"
     when
         $t: Team()
+        $m1: Match(teams contains $t)
+        $m2: Match(this != $m1, teams contains $t)
     then
         insertLogical(
-            new Metainfo(Match.getSpanOverhead($t), Match.getUnderruns($t))
+            new Distance(Math.abs($m1.getSlot().getNumber() - $m2.getSlot().getNumber()))
+        );
+end
+
+rule "Get overhead per team"
+    when
+        $t: Team()
+        accumulate(
+            Match($m: this, teams contains $t),
+            $min: min($m.getSlot().getNumber()),
+            $max: max($m.getSlot().getNumber()),
+            $count: count($m.getSlot().getNumber())
+        )
+    then
+        insertLogical(
+            new Overhead($max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1))
         );
 end
 
 rule "Hard score means how many teams have matches directly adjacent"
     when
-        $total : Number () 
-             from accumulate(
-                Metainfo( $distance : underruns, underruns > 0 ),
-                sum($distance)
-             )
+        $total : Number () from accumulate(
+            Distance( $distance : num, num < 2),
+            sum($distance)
+        )
     then
         scoreCalculator.setHardConstraintsBroken($total.intValue());
 end
 
 rule "Soft score is a sum of calculated maximum slot distances"
     when
-        $total : Number () 
-             from accumulate(
-                Metainfo( $distance : distance, distance > 0),
-                sum($distance)
-             )
+        $total : Number () from accumulate(
+            Overhead( $overhead : num, num > 0),
+            sum($overhead)
+        )
     then
         scoreCalculator.setSoftConstraintsBroken($total.intValue());
 end
