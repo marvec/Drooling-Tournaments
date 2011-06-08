@@ -4,25 +4,28 @@ import org.drools.planner.core.score.calculator.HardAndSoftConstraintScoreCalcul
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Team;
 
+import function org.drools.planner.examples.tournaments.Util.areTeamsShared
+
 global HardAndSoftConstraintScoreCalculator scoreCalculator;
 
 declare Overhead
     num: Integer
 end
 
-declare Distance
-    num: Integer
+declare InvalidDistance
 end
 
 rule "Get underruns per team"
     when
-        $t: Team()
-        $m1: Match(teams contains $t)
-        $m2: Match(this != $m1, teams contains $t)
+        $m1: Match()
+        $m2: Match(this != $m1, areTeamsShared($m1.teams, this.teams))
     then
-        insertLogical(
-            new Distance(Math.abs($m1.getSlot().getNumber() - $m2.getSlot().getNumber()))
-        );
+        int distance = Math.abs($m1.getSlot().getNumber() - $m2.getSlot().getNumber());
+        if (distance == 1) {
+            insertLogical(
+                new InvalidDistance()
+            );
+        }
 end
 
 rule "Get overhead per team"
@@ -43,8 +46,8 @@ end
 rule "Hard score means how many teams have matches directly adjacent"
     when
         $total : Number () from accumulate(
-            Distance( $distance : num, num < 2),
-            sum($distance)
+            InvalidDistance(),
+            count()
         )
     then
         scoreCalculator.setHardConstraintsBroken($total.intValue());

@@ -8,6 +8,7 @@ import java.util.Set;
 import org.drools.ObjectFilter;
 import org.drools.WorkingMemory;
 import org.drools.planner.examples.tournaments.model.Match;
+import org.drools.planner.examples.tournaments.model.Team;
 
 
 public class Util {
@@ -19,6 +20,13 @@ public class Util {
         }
         
     }
+
+    public static boolean areTeamsShared(Collection<Team> teams1, Collection<Team> teams2) {
+        Set<Team> s1 = new HashSet<Team>(teams1);
+        s1.retainAll(teams2);
+        return (s1.size() > 0);
+    }
+
     
     public static Collection<Match> getMatches(WorkingMemory arg0) {
         Set<Match> matches = new HashSet<Match>();
