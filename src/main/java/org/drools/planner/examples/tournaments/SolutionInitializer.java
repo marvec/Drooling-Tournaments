@@ -1,13 +1,10 @@
 package org.drools.planner.examples.tournaments;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.drools.planner.core.solution.initializer.StartingSolutionInitializer;
 import org.drools.planner.core.solver.AbstractSolverScope;
 import org.drools.planner.examples.tournaments.model.Court;
-import org.drools.planner.examples.tournaments.model.Group;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Slot;
 import org.drools.planner.examples.tournaments.model.Team;
@@ -16,22 +13,16 @@ import org.drools.planner.examples.tournaments.model.Team;
 public class SolutionInitializer implements StartingSolutionInitializer {
 
     private AtomicBoolean initialized = new AtomicBoolean(false);
+    
+    private TournamentsSolution getSolution(AbstractSolverScope arg0) {
+        return (TournamentsSolution)arg0.getWorkingSolution();
+    }
 
     public void initializeSolution(AbstractSolverScope arg0) {
-        Court[] courts = new Court[]{Court.get("A"), Court.get("B")};
-        Group[] groups = new Group[]{Group.get("X"), Group.get("Y"), Group.get("Z"), Group.get("U")};
-        Integer[] teamCounts = new Integer[]{8, 8, 8, 8};
-        Set<Team> teams = new HashSet<Team>();
-        // generate some random teams
-        for (int i = 0; i < groups.length; i++) {
-            for (int j = 0; j < teamCounts[i]; j++) {
-                teams.add(new Team(groups[i].getName() + j, groups[i]));
-            }
-        }
         // generate matches between the teams
-        for (Team a : teams) {
+        for (Team a : getSolution(arg0).getTeams()) {
             int startingSlotNum = 0;
-            for (Team b : teams) {
+            for (Team b : getSolution(arg0).getTeams()) {
                 // teams only play other teams in the same group
                 if (a.equals(b)) {
                     continue;
@@ -42,7 +33,7 @@ public class SolutionInitializer implements StartingSolutionInitializer {
                 // prepare the match
                 Match m = Match.get(a, b);
                 for (int slotNum = startingSlotNum;; slotNum++) {
-                    for (Court c : courts) {
+                    for (Court c : getSolution(arg0).getCourts()) {
                         Slot s = new Slot(c, slotNum);
                         if (m.isPossible(s)) {
                             m.setSlot(s);
@@ -59,6 +50,7 @@ public class SolutionInitializer implements StartingSolutionInitializer {
             }
             arg0.getWorkingMemory().insert(a);
         }
+        getSolution(arg0).setInitialized();
         initialized.set(true);
     }
 

@@ -1,10 +1,5 @@
 package org.drools.planner.examples.tournaments.model;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 public class Court {
 
     @Override
@@ -12,21 +7,10 @@ public class Court {
         return "Court " + name;
     }
 
-    private static final Map<String, Court> courts = new HashMap<String, Court>();
-
     private final String name;
 
     private Court(String name) {
         this.name = name;
-    }
-
-    public static final Court get(String name) {
-        synchronized (courts) {
-            if (!courts.containsKey(name)) {
-                courts.put(name, new Court(name));
-            }
-        }
-        return courts.get(name);
     }
 
     @Override
@@ -35,10 +19,6 @@ public class Court {
         int result = 1;
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
-    }
-
-    public static Collection<Court> getAll() {
-        return Collections.unmodifiableCollection(courts.values());
     }
 
     @Override

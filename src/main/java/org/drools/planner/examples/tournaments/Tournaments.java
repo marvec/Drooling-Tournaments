@@ -20,6 +20,9 @@ import org.drools.planner.examples.tournaments.model.Court;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Team;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 
 public final class Tournaments {
     
@@ -27,12 +30,18 @@ public final class Tournaments {
         
         private Double time;
         private Solver solver;
+        
+        private TournamentsSolution getInitialSolution() {
+            XStream xs = new XStream(new DomDriver());
+            xs.processAnnotations(TournamentsSolution.class);
+            return (TournamentsSolution)xs.fromXML(Tournaments.class.getResourceAsStream("/input-large.xml"));
+        }
 
         @Override
         public void run() {
             final XmlSolverConfigurer configurer = new XmlSolverConfigurer();
             configurer.configure(Tournaments.class.getResourceAsStream("/solverConfig.xml"));
-            final TournamentsSolution startingSolution = new TournamentsSolution();
+            final TournamentsSolution startingSolution = getInitialSolution();
             solver = configurer.buildSolver();
             solver.setStartingSolution(startingSolution);
             time = Double.valueOf(System.nanoTime());
@@ -46,18 +55,19 @@ public final class Tournaments {
             // report results
             System.out.printf("         Done in: %d second(s).%n",
                     Math.max(1, Math.round(time / 1000 / 1000 / 1000)));
-            outputSchedules();
+            TournamentsSolution bestSolution = (TournamentsSolution)solver.getBestSolution();
+            outputSchedules(bestSolution);
             try {
-                outputCSV();
-                outputStats();
+                outputCSV(bestSolution);
+                outputStats(bestSolution);
             } catch (Exception ex) {
                 // just ignore
             }
         }
         
-        private void outputSchedules() {
+        private void outputSchedules(TournamentsSolution sol) {
             System.out.println();
-            for (Team t : Team.getAll()) {
+            for (Team t : sol.getTeams()) {
                 System.out.println("Schedule for " + t + ":");
                 for (Match m : Match.getAll()) {
                     if (m.getTeams().contains(t)) {
@@ -83,9 +93,9 @@ public final class Tournaments {
             out.close();
         }
         
-        private void outputStats() throws Exception {
+        private void outputStats(TournamentsSolution sol) throws Exception {
             DescriptiveStatistics stat = new DescriptiveStatistics();
-            for (Team t: Team.getAll()) {
+            for (Team t: sol.getTeams()) {
                 // gather all matches for a given team
                 Set<Match> matches = new HashSet<Match>();
                 for (Match m: Match.getAll()) {
@@ -122,7 +132,7 @@ public final class Tournaments {
             }
         }
 
-        private void outputCSV() throws Exception {
+        private void outputCSV(TournamentsSolution sol) throws Exception {
             // sort all the matches
             Map<Court, Match[]> matches = new HashMap<Court, Match[]>();
             for (Match m : Match.getAll()) {
@@ -137,7 +147,7 @@ public final class Tournaments {
             // output distances
             // output all
             outputSpecificCSV(matches.entrySet(), new File(System.getProperty("user.dir"), "ALL.csv"));
-            for (Team t : Team.getAll()) {
+            for (Team t : sol.getTeams()) {
                 Map<Court, Match[]> teamMatches = new HashMap<Court, Match[]>();
                 for (Match m : Match.getAll()) {
                     if (!m.getTeams().contains(t)) continue;

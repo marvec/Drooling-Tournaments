@@ -1,9 +1,5 @@
 package org.drools.planner.examples.tournaments.model;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
 public class Team {
 
     private final String name;
@@ -47,17 +43,10 @@ public class Team {
         return builder.toString();
     }
 
-    private static final Set<Team> teams = new HashSet<Team>();
-
     public Team(String name, Group group) {
         if (name == null) throw new IllegalArgumentException("Name must not be null!");
         this.name = name;
         this.group = group;
-        teams.add(this);
-    }
-
-    public static Set<Team> getAll() {
-        return Collections.unmodifiableSet(teams);
     }
 
 }

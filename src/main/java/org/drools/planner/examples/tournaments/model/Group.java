@@ -1,16 +1,11 @@
 package org.drools.planner.examples.tournaments.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Group {
 
     @Override
     public String toString() {
         return "Group [" + (name != null ? "name=" + name : "") + "]";
     }
-
-    private static final Map<String, Group> groups = new HashMap<String, Group>();
 
     private final String name;
 
@@ -20,15 +15,6 @@ public class Group {
 
     public String getName() {
         return name;
-    }
-
-    public static final Group get(String name) {
-        synchronized (groups) {
-            if (!groups.containsKey(name)) {
-                groups.put(name, new Group(name));
-            }
-        }
-        return groups.get(name);
     }
 
     @Override
