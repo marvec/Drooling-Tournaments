@@ -7,9 +7,14 @@ public class Court {
         return "Court " + name;
     }
 
-    private final String name;
+    private String name;
+    
+    public String getName() {
+        return name;
+    }
 
-    private Court(String name) {
+    
+    public void setName(String name) {
         this.name = name;
     }
 

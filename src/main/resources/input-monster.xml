@@ -1,4 +1,4 @@
-<!--  six groups, six teams each, three courts. -->
+<!--  Eight groups, eight teams each, four courts. -->
 <tournament>
   <group>
     <name>X</name>
@@ -18,6 +18,12 @@
   <group>
     <name>W</name>
   </group>
+  <group>
+    <name>R</name>
+  </group>
+  <group>
+    <name>S</name>
+  </group>
   <court>
     <name>A</name>
   </court>
@@ -26,6 +32,9 @@
   </court>
   <court>
     <name>C</name>
+  </court>
+  <court>
+    <name>D</name>
   </court>
   <team>
     <name>X0</name>
@@ -49,6 +58,14 @@
   </team>
   <team>
     <name>X5</name>
+    <group reference="../../group"/>
+  </team>
+  <team>
+    <name>X6</name>
+    <group reference="../../group"/>
+  </team>
+  <team>
+    <name>X7</name>
     <group reference="../../group"/>
   </team>
   <team>
@@ -76,6 +93,14 @@
     <group reference="../../group[2]"/>
   </team>
   <team>
+    <name>Y6</name>
+    <group reference="../../group[2]"/>
+  </team>
+  <team>
+    <name>Y7</name>
+    <group reference="../../group[2]"/>
+  </team>
+  <team>
     <name>Z0</name>
     <group reference="../../group[3]"/>
   </team>
@@ -97,6 +122,14 @@
   </team>
   <team>
     <name>Z5</name>
+    <group reference="../../group[3]"/>
+  </team>
+  <team>
+    <name>Z6</name>
+    <group reference="../../group[3]"/>
+  </team>
+  <team>
+    <name>Z7</name>
     <group reference="../../group[3]"/>
   </team>
   <team>
@@ -124,6 +157,14 @@
     <group reference="../../group[4]"/>
   </team>
   <team>
+    <name>U6</name>
+    <group reference="../../group[4]"/>
+  </team>
+  <team>
+    <name>U7</name>
+    <group reference="../../group[4]"/>
+  </team>
+  <team>
     <name>V0</name>
     <group reference="../../group[5]"/>
   </team>
@@ -145,6 +186,14 @@
   </team>
   <team>
     <name>V5</name>
+    <group reference="../../group[5]"/>
+  </team>
+  <team>
+    <name>V6</name>
+    <group reference="../../group[5]"/>
+  </team>
+  <team>
+    <name>V7</name>
     <group reference="../../group[5]"/>
   </team>
   <team>
@@ -170,5 +219,77 @@
   <team>
     <name>W5</name>
     <group reference="../../group[6]"/>
+  </team>
+  <team>
+    <name>W6</name>
+    <group reference="../../group[6]"/>
+  </team>
+  <team>
+    <name>W7</name>
+    <group reference="../../group[6]"/>
+  </team>
+  <team>
+    <name>R0</name>
+    <group reference="../../group[7]"/>
+  </team>
+  <team>
+    <name>R1</name>
+    <group reference="../../group[7]"/>
+  </team>
+  <team>
+    <name>R2</name>
+    <group reference="../../group[7]"/>
+  </team>
+  <team>
+    <name>R3</name>
+    <group reference="../../group[7]"/>
+  </team>
+  <team>
+    <name>R4</name>
+    <group reference="../../group[7]"/>
+  </team>
+  <team>
+    <name>R5</name>
+    <group reference="../../group[7]"/>
+  </team>
+  <team>
+    <name>R6</name>
+    <group reference="../../group[7]"/>
+  </team>
+  <team>
+    <name>R7</name>
+    <group reference="../../group[7]"/>
+  </team>
+  <team>
+    <name>S0</name>
+    <group reference="../../group[8]"/>
+  </team>
+  <team>
+    <name>S1</name>
+    <group reference="../../group[8]"/>
+  </team>
+  <team>
+    <name>S2</name>
+    <group reference="../../group[8]"/>
+  </team>
+  <team>
+    <name>S3</name>
+    <group reference="../../group[8]"/>
+  </team>
+  <team>
+    <name>S4</name>
+    <group reference="../../group[8]"/>
+  </team>
+  <team>
+    <name>S5</name>
+    <group reference="../../group[8]"/>
+  </team>
+  <team>
+    <name>S6</name>
+    <group reference="../../group[8]"/>
+  </team>
+  <team>
+    <name>S7</name>
+    <group reference="../../group[8]"/>
   </team>
 </tournament>

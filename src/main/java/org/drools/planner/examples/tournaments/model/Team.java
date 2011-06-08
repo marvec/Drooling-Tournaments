@@ -2,8 +2,8 @@ package org.drools.planner.examples.tournaments.model;
 
 public class Team {
 
-    private final String name;
-    private final Group group;
+    private String name;
+    private Group group;
 
     @Override
     public int hashCode() {
@@ -59,9 +59,13 @@ public class Team {
         return builder.toString();
     }
 
-    public Team(String name, Group group) {
-        if (name == null) throw new IllegalArgumentException("Name must not be null!");
+    
+    public void setName(String name) {
         this.name = name;
+    }
+
+    
+    public void setGroup(Group group) {
         this.group = group;
     }
 

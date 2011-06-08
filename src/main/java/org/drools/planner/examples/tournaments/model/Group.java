@@ -7,9 +7,9 @@ public class Group {
         return "Group [" + (name != null ? "name=" + name : "") + "]";
     }
 
-    private final String name;
-
-    private Group(String name) {
+    private String name;
+    
+    public void setName(String name) {
         this.name = name;
     }
 
