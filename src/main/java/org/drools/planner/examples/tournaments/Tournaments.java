@@ -3,6 +3,8 @@ package org.drools.planner.examples.tournaments;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -31,6 +33,20 @@ public final class Tournaments {
         private Double time;
         private Solver solver;
         
+        private void createMatchList(TournamentsSolution solution) {
+        	List<Match> matches = new ArrayList<Match>();
+        	Collection<Team> processedTeams = new HashSet<Team>();
+        	for (Team t1: solution.getTeams()) {
+        		for (Team t2: solution.getTeams()) {
+        			if (t1.equals(t2)) continue;
+        			if (processedTeams.contains(t2)) continue;
+        			matches.add(new Match(t1, t2));
+        		}
+    			processedTeams.add(t1);
+        	}
+            solution.setMatchList(matches);
+        }
+        
         private TournamentsSolution getInitialSolution() {
             XStream xs = new XStream(new DomDriver());
             xs.processAnnotations(TournamentsSolution.class);
@@ -43,6 +59,7 @@ public final class Tournaments {
             configurer.configure(Tournaments.class.getResourceAsStream("/solverConfig.xml"));
             final TournamentsSolution startingSolution = getInitialSolution();
             solver = configurer.buildSolver();
+            createMatchList(startingSolution);
             solver.setStartingSolution(startingSolution);
             time = Double.valueOf(System.nanoTime());
             solver.solve();
@@ -69,7 +86,7 @@ public final class Tournaments {
             System.out.println();
             for (Team t : sol.getTeams()) {
                 System.out.println("Schedule for " + t + ":");
-                for (Match m : sol.getAllMatches()) {
+                for (Match m : sol.getMatchList()) {
                     if (m.getTeams().contains(t)) {
                         System.out.println("  " + m.getTeams() + " @ " + m.getSlot());
                     }
@@ -98,7 +115,7 @@ public final class Tournaments {
             for (Team t: sol.getTeams()) {
                 // gather all matches for a given team
                 Set<Match> matches = new HashSet<Match>();
-                for (Match m: sol.getAllMatches()) {
+                for (Match m: sol.getMatchList()) {
                     if (!m.getTeams().contains(t)) continue;
                     matches.add(m);
                 }
@@ -135,11 +152,11 @@ public final class Tournaments {
         private void outputCSV(TournamentsSolution sol) throws Exception {
             // sort all the matches
             Map<Court, Match[]> matches = new HashMap<Court, Match[]>();
-            for (Match m : sol.getAllMatches()) {
+            for (Match m : sol.getMatchList()) {
                 Court c = m.getSlot().getCourt();
                 int position = m.getSlot().getNumber();
                 if (!matches.containsKey(c)) {
-                    matches.put(c, new Match[sol.getAllMatches().size()]);
+                    matches.put(c, new Match[sol.getMatchList().size()]);
                 }
                 matches.get(c)[position] = m;
             }
@@ -149,12 +166,12 @@ public final class Tournaments {
             outputSpecificCSV(matches.entrySet(), new File(System.getProperty("user.dir"), "ALL.csv"));
             for (Team t : sol.getTeams()) {
                 Map<Court, Match[]> teamMatches = new HashMap<Court, Match[]>();
-                for (Match m : sol.getAllMatches()) {
+                for (Match m : sol.getMatchList()) {
                     if (!m.getTeams().contains(t)) continue;
                     Court c = m.getSlot().getCourt();
                     int position = m.getSlot().getNumber();
                     if (!teamMatches.containsKey(c)) {
-                        teamMatches.put(c, new Match[sol.getAllMatches().size()]);
+                        teamMatches.put(c, new Match[sol.getMatchList().size()]);
                     }
                     teamMatches.get(c)[position] = m;
                 }

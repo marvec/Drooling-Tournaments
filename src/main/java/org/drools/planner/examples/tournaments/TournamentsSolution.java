@@ -8,11 +8,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.drools.planner.api.domain.solution.PlanningEntityCollectionProperty;
 import org.drools.planner.core.score.HardAndSoftScore;
 import org.drools.planner.core.solution.Solution;
 import org.drools.planner.examples.tournaments.model.Court;
 import org.drools.planner.examples.tournaments.model.Group;
 import org.drools.planner.examples.tournaments.model.Match;
+import org.drools.planner.examples.tournaments.model.Slot;
 import org.drools.planner.examples.tournaments.model.Team;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -32,50 +34,40 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
     @XStreamOmitField
     public Map<Team, Map<Team, Match>> matches = new HashMap<Team, Map<Team, Match>>();
     @XStreamOmitField
-    private List<Match> allMatches = new LinkedList<Match>();
+    private List<Match> matchList = new LinkedList<Match>();
     @XStreamOmitField
     private HardAndSoftScore score;
-    @XStreamOmitField
-    private boolean initialized;
 
+    private static final double MAX_SLOT_OVERFLOW_RATE = 0.04;
+
+    public List<Slot> getSlotList() {
+        // get some boundaries
+        double idealMatchesPerCourt = Math.ceil(this.getMatchList().size() / this.getCourts().size());
+        double allowedMatchesPerCourt = idealMatchesPerCourt * (1 + MAX_SLOT_OVERFLOW_RATE);
+        Integer upperBound = (int)Math.round(allowedMatchesPerCourt);
+        Integer lowerBound = 0;
+        // execute against those
+        List<Slot> slots = new LinkedList<Slot>();
+        for (Court c: this.getCourts()) {
+            for (int i = lowerBound; i < upperBound; i++) {
+                slots.add(new Slot(c, i));
+            }
+        }
+        return slots;
+    }
+    
     public Solution<HardAndSoftScore> cloneSolution() {
         TournamentsSolution s = new TournamentsSolution();
         s.groups = groups;
         s.teams = teams;
         s.courts = courts;
-        // clone the matches
-        for (Match m: this.allMatches) {
-            Team[] ms = m.getTeams().toArray(new Team[2]); 
-            Match nm = s.addMatch(ms[0], ms[1]);
-            nm.setSlot(m.getSlot());
-        }
-        s.initialized = true;
         s.setScore(getScore());
         return s;
     }
 
-    protected synchronized Match addMatch(Team a, Team b) {
-        if (matches == null) { // funky stuff is happening with XStream
-            matches = new HashMap<Team, Map<Team, Match>>();
-        }
-        if (!matches.containsKey(a)) matches.put(a, new HashMap<Team, Match>());
-        if (!matches.containsKey(b)) matches.put(b, new HashMap<Team, Match>());
-        if (matches.get(a).containsKey(b)) return matches.get(a).get(b);
-        if (matches.get(b).containsKey(a)) return matches.get(b).get(a);
-        Match m = new Match(a, b);
-        matches.get(a).put(b, m);
-        matches.get(b).put(a, m);
-        if (allMatches == null) { // funky stuff is happening with XStream
-          allMatches = new LinkedList<Match>();
-        }
-        allMatches.add(m);
-        return m;
-    }
-
-    public Collection<? extends Object> getFacts() {
+    public Collection<? extends Object> getProblemFacts() {
         List<Object> l = new ArrayList<Object>();
         l.addAll(getTeams());
-        l.addAll(getAllMatches());
         return l;
     }
 
@@ -102,21 +94,6 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
         score = arg0;
     }
     
-    protected void addGroup(Group g) {
-        if (initialized) throw new IllegalStateException("Solution is already initialized!");
-        groups.add(g);
-    }
-
-    protected void addCourt(Court c) {
-        if (initialized) throw new IllegalStateException("Solution is already initialized!");
-        courts.add(c);
-    }
-
-    protected void addTeam(Team t) {
-        if (initialized) throw new IllegalStateException("Solution is already initialized!");
-        teams.add(t);
-    }
-    
     public Collection<Team> getTeams() {
         return Collections.unmodifiableCollection(this.teams);
     }
@@ -129,16 +106,17 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
         return Collections.unmodifiableCollection(this.groups);
     }
     
-    protected void setInitialized() {
-        this.initialized = true;
-    }
-    
-    public Collection<Match> getAllMatches() {
-        if (allMatches == null) {
+    @PlanningEntityCollectionProperty
+    public Collection<Match> getMatchList() {
+        if (matchList == null) {
             return Collections.emptyList();
         } else {
-            return Collections.unmodifiableCollection(allMatches);
+            return Collections.unmodifiableCollection(matchList);
         }
     }
-
+    
+    public void setMatchList(List<Match> matches) {
+    	this.matchList = matches;
+    }
+    
 }

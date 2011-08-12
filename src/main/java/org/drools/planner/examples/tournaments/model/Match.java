@@ -5,6 +5,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.drools.planner.api.domain.entity.PlanningEntity;
+import org.drools.planner.api.domain.variable.PlanningVariable;
+import org.drools.planner.api.domain.variable.ValueRangeFromSolutionProperty;
+
+@PlanningEntity
 public class Match {
 
     private final List<Team> teamsInMatch = new LinkedList<Team>();
@@ -15,6 +20,8 @@ public class Match {
         teamsInMatch.add(b);
     }
 
+    @PlanningVariable
+    @ValueRangeFromSolutionProperty(propertyName = "slotList")
     public Slot getSlot() {
         return slot;
     }

@@ -18,8 +18,8 @@ public class SwitchSlotMoveFactory extends CachedMoveFactory {
     public List<Move> createCachedMoveList(@SuppressWarnings("rawtypes") Solution arg0) {
         TournamentsSolution sol = (TournamentsSolution)arg0;
         List<Move> moves = new LinkedList<Move>();
-        Set<Match> unvisited = new HashSet<Match>(sol.getAllMatches());
-        for (Match m1 : sol.getAllMatches()) {
+        Set<Match> unvisited = new HashSet<Match>(sol.getMatchList());
+        for (Match m1 : sol.getMatchList()) {
             unvisited.remove(m1);
             for (Match m2 : unvisited) {
                 moves.add(new SwitchSlotMove(m1, m2));
