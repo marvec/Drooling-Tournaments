@@ -62,12 +62,13 @@ rule "Hard score means how many teams have matches directly adjacent"
         scoreCalculator.setHardConstraintsBroken($total.intValue());
 end
 
-rule "Soft score is a sum of calculated maximum slot distances"
+rule "Soft score is a function of max slot distance and their sum"
     when
-        $total : Number () from accumulate(
-            Overhead( $overhead : num, num > 0),
-            sum($overhead)
+        accumulate(
+            Overhead($overhead : num, num > 0),
+            $max: max($overhead),       
+            $sum: sum($overhead)
         )
     then
-        scoreCalculator.setSoftConstraintsBroken($total.intValue());
+        scoreCalculator.setSoftConstraintsBroken($max.intValue() * $sum.intValue());
 end
