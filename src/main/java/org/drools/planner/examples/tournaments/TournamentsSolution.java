@@ -3,10 +3,8 @@ package org.drools.planner.examples.tournaments;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.drools.planner.api.domain.solution.PlanningEntityCollectionProperty;
 import org.drools.planner.core.score.HardAndSoftScore;
@@ -32,28 +30,29 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
     List<Team> teams = new LinkedList<Team>();
         
     @XStreamOmitField
-    public Map<Team, Map<Team, Match>> matches = new HashMap<Team, Map<Team, Match>>();
-    @XStreamOmitField
     private List<Match> matchList = new LinkedList<Match>();
+    @XStreamOmitField
+    private List<Slot> slotList = null;
     @XStreamOmitField
     private HardAndSoftScore score;
 
     private static final double MAX_SLOT_OVERFLOW_RATE = 0.04;
 
-    public List<Slot> getSlotList() {
-        // get some boundaries
-        double idealMatchesPerCourt = Math.ceil(this.getMatchList().size() / this.getCourts().size());
-        double allowedMatchesPerCourt = idealMatchesPerCourt * (1 + MAX_SLOT_OVERFLOW_RATE);
-        Integer upperBound = (int)Math.round(allowedMatchesPerCourt);
-        Integer lowerBound = 0;
-        // execute against those
-        List<Slot> slots = new LinkedList<Slot>();
-        for (Court c: this.getCourts()) {
-            for (int i = lowerBound; i < upperBound; i++) {
-                slots.add(new Slot(c, i));
+    public synchronized List<Slot> getSlotList() {
+        if (slotList == null) {
+            slotList = new LinkedList<Slot>();
+            // initialize list of slots
+            double idealMatchesPerCourt = Math.ceil(this.getMatchList().size() / this.getCourts().size());
+            double allowedMatchesPerCourt = idealMatchesPerCourt * (1 + MAX_SLOT_OVERFLOW_RATE);
+            Integer upperBound = (int)Math.round(allowedMatchesPerCourt);
+            Integer lowerBound = 0;
+            for (Court c: this.getCourts()) {
+                for (int i = lowerBound; i < upperBound; i++) {
+                    slotList.add(new Slot(c, i));
+                }
             }
         }
-        return slots;
+        return slotList;
     }
     
     public Solution<HardAndSoftScore> cloneSolution() {
@@ -61,6 +60,9 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
         s.groups = groups;
         s.teams = teams;
         s.courts = courts;
+        for (Match m: matchList) {
+            s.matchList.add(m.clone());
+        }
         s.setScore(getScore());
         return s;
     }
@@ -108,11 +110,7 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
     
     @PlanningEntityCollectionProperty
     public Collection<Match> getMatchList() {
-        if (matchList == null) {
-            return Collections.emptyList();
-        } else {
-            return Collections.unmodifiableCollection(matchList);
-        }
+        return this.matchList;
     }
     
     public void setMatchList(List<Match> matches) {

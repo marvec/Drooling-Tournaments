@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import org.drools.planner.examples.tournaments.model.Group;
+
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.drools.planner.config.XmlSolverConfigurer;
 import org.drools.planner.core.Solver;
@@ -33,34 +35,39 @@ public final class Tournaments {
         private Double time;
         private Solver solver;
         
-        private void createMatchList(TournamentsSolution solution) {
+        private List<Match> createMatchList(TournamentsSolution solution) {
         	List<Match> matches = new ArrayList<Match>();
-        	Collection<Team> processedTeams = new HashSet<Team>();
-        	for (Team t1: solution.getTeams()) {
-        		for (Team t2: solution.getTeams()) {
-        			if (t1.equals(t2)) continue;
-        			if (processedTeams.contains(t2)) continue;
-        			matches.add(new Match(t1, t2));
-        		}
-    			processedTeams.add(t1);
+        	for (Group g: solution.getGroups()) {
+                Collection<Team> processedTeams = new HashSet<Team>();
+            	for (Team t1: solution.getTeams()) {
+            	    if (!t1.getGroup().equals(g)) continue; // no matches outside a group
+            		for (Team t2: solution.getTeams()) {
+            			if (t1.equals(t2)) continue; // team cannot play itself
+                        if (!t2.getGroup().equals(g)) continue; // no matches outside a group
+            			if (processedTeams.contains(t2)) continue;
+            			matches.add(new Match(t1, t2));
+            		}
+        			processedTeams.add(t1);
+            	}
         	}
-            solution.setMatchList(matches);
+            return matches;
         }
         
         private TournamentsSolution getInitialSolution() {
             XStream xs = new XStream(new DomDriver());
             xs.processAnnotations(TournamentsSolution.class);
-            return (TournamentsSolution)xs.fromXML(Tournaments.class.getResourceAsStream("/input-large.xml"));
+            TournamentsSolution sol = (TournamentsSolution)xs.fromXML(Tournaments.class.getResourceAsStream("/input-large.xml"));
+            sol.setMatchList(createMatchList(sol));
+            return sol;
+            
         }
 
         @Override
         public void run() {
             final XmlSolverConfigurer configurer = new XmlSolverConfigurer();
             configurer.configure(Tournaments.class.getResourceAsStream("/solverConfig.xml"));
-            final TournamentsSolution startingSolution = getInitialSolution();
             solver = configurer.buildSolver();
-            createMatchList(startingSolution);
-            solver.setPlanningProblem(startingSolution);
+            solver.setPlanningProblem(getInitialSolution());
             time = Double.valueOf(System.nanoTime());
             solver.solve();
         }
@@ -199,7 +206,6 @@ public final class Tournaments {
         }
         e.stop();
         es.shutdownNow();
-        e.run();
     }
     
 

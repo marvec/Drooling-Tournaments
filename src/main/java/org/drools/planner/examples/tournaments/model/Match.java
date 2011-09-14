@@ -14,6 +14,13 @@ public class Match {
 
     private final List<Team> teamsInMatch = new LinkedList<Team>();
     private Slot slot = null;
+    
+    public Match clone() {
+        Team[] teams = teamsInMatch.toArray(new Team[2]);
+        Match m = new Match(teams[0], teams[1]);
+        m.slot = slot;
+        return m;
+    }
 
     public Match(Team a, Team b) {
         teamsInMatch.add(a);

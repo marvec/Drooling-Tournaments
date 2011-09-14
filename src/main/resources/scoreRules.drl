@@ -21,7 +21,7 @@ rule "Get underruns per team"
         $m2: Match(this != $m1, areTeamsShared($m1.teams, this.teams))
     then
         int distance = Math.abs($m1.getSlot().getNumber() - $m2.getSlot().getNumber());
-        if (distance == 1) {
+        if (distance < 2) {
             insertLogical(
                 new InvalidDistance()
             );
