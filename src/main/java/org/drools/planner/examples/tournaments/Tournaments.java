@@ -56,7 +56,7 @@ public final class Tournaments {
         private TournamentsSolution getInitialSolution() {
             XStream xs = new XStream(new DomDriver());
             xs.processAnnotations(TournamentsSolution.class);
-            TournamentsSolution sol = (TournamentsSolution)xs.fromXML(Tournaments.class.getResourceAsStream("/input-large.xml"));
+            TournamentsSolution sol = Util.fromXStream(Tournaments.class.getResourceAsStream("/input-monster.xml"));
             sol.setMatchList(createMatchList(sol));
             return sol;
             

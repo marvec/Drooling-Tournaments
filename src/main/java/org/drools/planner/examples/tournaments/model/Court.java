@@ -1,5 +1,10 @@
 package org.drools.planner.examples.tournaments.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value = "court")
 public class Court {
 
     @Override
@@ -7,6 +12,7 @@ public class Court {
         return "Court " + name;
     }
 
+    @XStreamAsAttribute
     private String name;
     
     public String getName() {
