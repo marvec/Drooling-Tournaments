@@ -60,7 +60,7 @@ public final class Tournaments {
             final TournamentsSolution startingSolution = getInitialSolution();
             solver = configurer.buildSolver();
             createMatchList(startingSolution);
-            solver.setStartingSolution(startingSolution);
+            solver.setPlanningProblem(startingSolution);
             time = Double.valueOf(System.nanoTime());
             solver.solve();
         }
@@ -199,6 +199,7 @@ public final class Tournaments {
         }
         e.stop();
         es.shutdownNow();
+        e.run();
     }
     
 
