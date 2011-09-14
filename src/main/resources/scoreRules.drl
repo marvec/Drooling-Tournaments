@@ -12,7 +12,18 @@ declare Overhead
     num: Integer
 end
 
-declare InvalidDistance
+declare Distance
+    num: Integer
+end
+
+rule "Get matches sharing a slot"
+    when
+        $m1: Match()
+        $m2: Match(this != $m1, this.getSlot().equals($m1.getSlot()))
+    then
+        insertLogical(
+            new Distance(0)
+        );
 end
 
 rule "Get underruns per team"
@@ -21,11 +32,9 @@ rule "Get underruns per team"
         $m2: Match(this != $m1, areTeamsShared($m1.teams, this.teams))
     then
         int distance = Math.abs($m1.getSlot().getNumber() - $m2.getSlot().getNumber());
-        if (distance < 2) {
-            insertLogical(
-                new InvalidDistance()
-            );
-        }
+        insertLogical(
+            new Distance(distance)
+        );
 end
 
 rule "Get overhead per team"
@@ -46,7 +55,7 @@ end
 rule "Hard score means how many teams have matches directly adjacent"
     when
         $total : Number () from accumulate(
-            InvalidDistance(),
+            Distance($distance: num, num < 2),
             count()
         )
     then
