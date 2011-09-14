@@ -27,6 +27,9 @@ public class Util {
         return (s1.size() > 0);
     }
 
+    public static boolean areSlotsShared(Match m1, Match m2) {
+        return m1.getSlot().equals(m2.getSlot());
+    }
     
     public static Collection<Match> getMatches(WorkingMemory arg0) {
         Set<Match> matches = new HashSet<Match>();
