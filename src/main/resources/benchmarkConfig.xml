@@ -19,13 +19,13 @@
 	    </constructionHeuristic>
         <termination>
             <terminationCompositionStyle>OR</terminationCompositionStyle>
-            <maximumMinutesSpend>5</maximumMinutesSpend>
+            <maximumMinutesSpend>1</maximumMinutesSpend>
             <scoreAttained>0hard/0soft</scoreAttained>
         </termination> 
     </solver>
   </inheritedSolverBenchmark>
   <solverBenchmark>
-    <name>SA 0/20</name>
+    <name>SA 1</name>
     <solver>
       <localSearch>
         <selector>
@@ -37,10 +37,115 @@
            </selector>
         </selector>
         <acceptor>
-           <simulatedAnnealingStartingTemperature>0hard/20soft</simulatedAnnealingStartingTemperature>
+           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+        </acceptor>
+        <forager>
+           <minimalAcceptedSelection>1</minimalAcceptedSelection>
+        </forager>    
+      </localSearch>
+    </solver>
+  </solverBenchmark>
+  <solverBenchmark>
+    <name>SA 2</name>
+    <solver>
+      <localSearch>
+        <selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
+           </selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
+           </selector>
+        </selector>
+        <acceptor>
+           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+        </acceptor>
+        <forager>
+           <minimalAcceptedSelection>2</minimalAcceptedSelection>
+        </forager>    
+      </localSearch>
+    </solver>
+  </solverBenchmark>
+  <solverBenchmark>
+    <name>SA 4</name>
+    <solver>
+      <localSearch>
+        <selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
+           </selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
+           </selector>
+        </selector>
+        <acceptor>
+           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
         </acceptor>
         <forager>
            <minimalAcceptedSelection>4</minimalAcceptedSelection>
+        </forager>    
+      </localSearch>
+    </solver>
+  </solverBenchmark>
+  <solverBenchmark>
+    <name>SA 8</name>
+    <solver>
+      <localSearch>
+        <selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
+           </selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
+           </selector>
+        </selector>
+        <acceptor>
+           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+        </acceptor>
+        <forager>
+           <minimalAcceptedSelection>8</minimalAcceptedSelection>
+        </forager>    
+      </localSearch>
+    </solver>
+  </solverBenchmark>
+  <solverBenchmark>
+    <name>SA 32</name>
+    <solver>
+      <localSearch>
+        <selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
+           </selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
+           </selector>
+        </selector>
+        <acceptor>
+           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+        </acceptor>
+        <forager>
+           <minimalAcceptedSelection>32</minimalAcceptedSelection>
+        </forager>    
+      </localSearch>
+    </solver>
+  </solverBenchmark>
+  <solverBenchmark>
+    <name>SA 16</name>
+    <solver>
+      <localSearch>
+        <selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
+           </selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
+           </selector>
+        </selector>
+        <acceptor>
+           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+        </acceptor>
+        <forager>
+           <minimalAcceptedSelection>16</minimalAcceptedSelection>
         </forager>    
       </localSearch>
     </solver>

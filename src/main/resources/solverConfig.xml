@@ -12,14 +12,14 @@
     <localSearch>
 	    <termination>
 	        <terminationCompositionStyle>OR</terminationCompositionStyle>
-	        <maximumUnimprovedStepCount>1000</maximumUnimprovedStepCount>
+	        <maximumUnimprovedStepCount>500</maximumUnimprovedStepCount>
 	        <scoreAttained>0hard/0soft</scoreAttained>
 	    </termination> 
 	    <acceptor>
-	       <simulatedAnnealingStartingTemperature>0hard/20soft</simulatedAnnealingStartingTemperature>
+	       <simulatedAnnealingStartingTemperature>0hard/50soft</simulatedAnnealingStartingTemperature>
 	    </acceptor>
 	    <forager>
-	       <minimalAcceptedSelection>4</minimalAcceptedSelection>
+	       <minimalAcceptedSelection>2</minimalAcceptedSelection>
 	    </forager>    
 	    <selector>
 	       <selector>
@@ -29,5 +29,26 @@
 	           <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
 	       </selector>
 	    </selector>
+    </localSearch>
+    <localSearch>
+        <termination>
+            <terminationCompositionStyle>OR</terminationCompositionStyle>
+            <maximumUnimprovedStepCount>200</maximumUnimprovedStepCount>
+            <scoreAttained>0hard/0soft</scoreAttained>
+        </termination> 
+        <acceptor>
+           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+        </acceptor>
+        <forager>
+           <minimalAcceptedSelection>1</minimalAcceptedSelection>
+        </forager>    
+        <selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
+           </selector>
+           <selector>
+               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
+           </selector>
+        </selector>
     </localSearch>
 </solver>
