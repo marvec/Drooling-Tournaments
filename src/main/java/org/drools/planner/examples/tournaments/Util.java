@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.thoughtworks.xstream.core.ReferenceByIdMarshallingStrategy;
+
 import org.drools.planner.examples.tournaments.model.Court;
 
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
@@ -39,6 +41,7 @@ public class Util {
     
     private static XStream getXStream() {
         XStream xs = new XStream(new PureJavaReflectionProvider(new FieldDictionary(new NativeFieldKeySorter())));
+        xs.setMarshallingStrategy(new ReferenceByIdMarshallingStrategy());
         xs.processAnnotations(TournamentsSolution.class);
         xs.processAnnotations(Court.class);
         xs.processAnnotations(Group.class);

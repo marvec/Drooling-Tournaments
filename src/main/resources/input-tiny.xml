@@ -1,56 +1,56 @@
-<tournament>
-  <group name="X"/>
-  <group name="Y"/>
-  <group name="Z"/>
-  <group name="U"/>
-  <court name="A"/>
-  <court name="B"/>
-  <team name="X0">
-    <group reference="../../group"/>
+<tournament id="1">
+  <group id="2" name="X"/>
+  <group id="3" name="Y"/>
+  <group id="4" name="Z"/>
+  <group id="5" name="U"/>
+  <court id="6" name="A"/>
+  <court id="7" name="B"/>
+  <team id="8" name="X0">
+    <group reference="2"/>
   </team>
-  <team name="X1">
-    <group reference="../../group"/>
+  <team id="9" name="X1">
+    <group reference="2"/>
   </team>
-  <team name="X2">
-    <group reference="../../group"/>
+  <team id="10" name="X2">
+    <group reference="2"/>
   </team>
-  <team name="X3">
-    <group reference="../../group"/>
+  <team id="11" name="X3">
+    <group reference="2"/>
   </team>
-  <team name="Y0">
-    <group reference="../../group[2]"/>
+  <team id="12" name="Y0">
+    <group reference="3"/>
   </team>
-  <team name="Y1">
-    <group reference="../../group[2]"/>
+  <team id="13" name="Y1">
+    <group reference="3"/>
   </team>
-  <team name="Y2">
-    <group reference="../../group[2]"/>
+  <team id="14" name="Y2">
+    <group reference="3"/>
   </team>
-  <team name="Y3">
-    <group reference="../../group[2]"/>
+  <team id="15" name="Y3">
+    <group reference="3"/>
   </team>
-  <team name="Z0">
-    <group reference="../../group[3]"/>
+  <team id="16" name="Z0">
+    <group reference="4"/>
   </team>
-  <team name="Z1">
-    <group reference="../../group[3]"/>
+  <team id="17" name="Z1">
+    <group reference="4"/>
   </team>
-  <team name="Z2">
-    <group reference="../../group[3]"/>
+  <team id="18" name="Z2">
+    <group reference="4"/>
   </team>
-  <team name="Z3">
-    <group reference="../../group[3]"/>
+  <team id="19" name="Z3">
+    <group reference="4"/>
   </team>
-  <team name="U0">
-    <group reference="../../group[4]"/>
+  <team id="20" name="U0">
+    <group reference="5"/>
   </team>
-  <team name="U1">
-    <group reference="../../group[4]"/>
+  <team id="21" name="U1">
+    <group reference="5"/>
   </team>
-  <team name="U2">
-    <group reference="../../group[4]"/>
+  <team id="22" name="U2">
+    <group reference="5"/>
   </team>
-  <team name="U3">
-    <group reference="../../group[4]"/>
+  <team id="23" name="U3">
+    <group reference="5"/>
   </team>
 </tournament>
