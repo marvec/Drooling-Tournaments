@@ -5,28 +5,32 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import org.drools.planner.api.domain.entity.PlanningEntity;
 import org.drools.planner.api.domain.variable.PlanningVariable;
 import org.drools.planner.api.domain.variable.ValueRangeFromSolutionProperty;
 
 @PlanningEntity
+@XStreamAlias(value = "match")
 public class Match {
 
+    @XStreamImplicit(itemFieldName = "team")
     private final List<Team> teamsInMatch = new LinkedList<Team>();
+    @XStreamAsAttribute
     private Slot slot = null;
     
     public Match clone() {
-        Team[] teams = teamsInMatch.toArray(new Team[2]);
-        Match m = new Match(teams[0], teams[1]);
+        Match m = new Match();
+        m.teamsInMatch.addAll(teamsInMatch);
         m.slot = slot;
         return m;
     }
-
-    public Match(Team a, Team b) {
-        teamsInMatch.add(a);
-        teamsInMatch.add(b);
-    }
-
+    
     @PlanningVariable
     @ValueRangeFromSolutionProperty(propertyName = "slotList")
     public Slot getSlot() {

@@ -1,8 +1,15 @@
 package org.drools.planner.examples.tournaments.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
+@XStreamAlias(value = "slot")
 public class Slot {
 
+    @XStreamAsAttribute
     private final Court court;
+    @XStreamAsAttribute
     private final int number;
 
     public Slot(Court c, int number) {

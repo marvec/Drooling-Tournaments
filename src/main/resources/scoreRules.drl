@@ -14,7 +14,6 @@ declare Overhead
 end
 
 declare Distance
-    num: Integer
 end
 
 rule "Get underruns per team"
@@ -26,7 +25,7 @@ rule "Get underruns per team"
         if (distance < 2) {
             // if inside a rule; ugly, but performs much faster then filtering in the later accumulate
             insertLogical(
-                new Distance(distance)
+                new Distance()
             );
         }
 end
@@ -49,7 +48,7 @@ end
 rule "Hard score means how many teams have matches directly adjacent"
     when
         $total : Number () from accumulate(
-            Distance($distance: num),
+            Distance(),
             count()
         )
     then

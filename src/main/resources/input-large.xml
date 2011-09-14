@@ -116,4 +116,364 @@
   <team id="46" name="W5">
     <group reference="7"/>
   </team>
+  <match id="47">
+    <team reference="11"/>
+    <team reference="12"/>
+  </match>
+  <match id="48">
+    <team reference="11"/>
+    <team reference="13"/>
+  </match>
+  <match id="49">
+    <team reference="11"/>
+    <team reference="14"/>
+  </match>
+  <match id="50">
+    <team reference="11"/>
+    <team reference="15"/>
+  </match>
+  <match id="51">
+    <team reference="11"/>
+    <team reference="16"/>
+  </match>
+  <match id="52">
+    <team reference="12"/>
+    <team reference="13"/>
+  </match>
+  <match id="53">
+    <team reference="12"/>
+    <team reference="14"/>
+  </match>
+  <match id="54">
+    <team reference="12"/>
+    <team reference="15"/>
+  </match>
+  <match id="55">
+    <team reference="12"/>
+    <team reference="16"/>
+  </match>
+  <match id="56">
+    <team reference="13"/>
+    <team reference="14"/>
+  </match>
+  <match id="57">
+    <team reference="13"/>
+    <team reference="15"/>
+  </match>
+  <match id="58">
+    <team reference="13"/>
+    <team reference="16"/>
+  </match>
+  <match id="59">
+    <team reference="14"/>
+    <team reference="15"/>
+  </match>
+  <match id="60">
+    <team reference="14"/>
+    <team reference="16"/>
+  </match>
+  <match id="61">
+    <team reference="15"/>
+    <team reference="16"/>
+  </match>
+  <match id="62">
+    <team reference="17"/>
+    <team reference="18"/>
+  </match>
+  <match id="63">
+    <team reference="17"/>
+    <team reference="19"/>
+  </match>
+  <match id="64">
+    <team reference="17"/>
+    <team reference="20"/>
+  </match>
+  <match id="65">
+    <team reference="17"/>
+    <team reference="21"/>
+  </match>
+  <match id="66">
+    <team reference="17"/>
+    <team reference="22"/>
+  </match>
+  <match id="67">
+    <team reference="18"/>
+    <team reference="19"/>
+  </match>
+  <match id="68">
+    <team reference="18"/>
+    <team reference="20"/>
+  </match>
+  <match id="69">
+    <team reference="18"/>
+    <team reference="21"/>
+  </match>
+  <match id="70">
+    <team reference="18"/>
+    <team reference="22"/>
+  </match>
+  <match id="71">
+    <team reference="19"/>
+    <team reference="20"/>
+  </match>
+  <match id="72">
+    <team reference="19"/>
+    <team reference="21"/>
+  </match>
+  <match id="73">
+    <team reference="19"/>
+    <team reference="22"/>
+  </match>
+  <match id="74">
+    <team reference="20"/>
+    <team reference="21"/>
+  </match>
+  <match id="75">
+    <team reference="20"/>
+    <team reference="22"/>
+  </match>
+  <match id="76">
+    <team reference="21"/>
+    <team reference="22"/>
+  </match>
+  <match id="77">
+    <team reference="23"/>
+    <team reference="24"/>
+  </match>
+  <match id="78">
+    <team reference="23"/>
+    <team reference="25"/>
+  </match>
+  <match id="79">
+    <team reference="23"/>
+    <team reference="26"/>
+  </match>
+  <match id="80">
+    <team reference="23"/>
+    <team reference="27"/>
+  </match>
+  <match id="81">
+    <team reference="23"/>
+    <team reference="28"/>
+  </match>
+  <match id="82">
+    <team reference="24"/>
+    <team reference="25"/>
+  </match>
+  <match id="83">
+    <team reference="24"/>
+    <team reference="26"/>
+  </match>
+  <match id="84">
+    <team reference="24"/>
+    <team reference="27"/>
+  </match>
+  <match id="85">
+    <team reference="24"/>
+    <team reference="28"/>
+  </match>
+  <match id="86">
+    <team reference="25"/>
+    <team reference="26"/>
+  </match>
+  <match id="87">
+    <team reference="25"/>
+    <team reference="27"/>
+  </match>
+  <match id="88">
+    <team reference="25"/>
+    <team reference="28"/>
+  </match>
+  <match id="89">
+    <team reference="26"/>
+    <team reference="27"/>
+  </match>
+  <match id="90">
+    <team reference="26"/>
+    <team reference="28"/>
+  </match>
+  <match id="91">
+    <team reference="27"/>
+    <team reference="28"/>
+  </match>
+  <match id="92">
+    <team reference="29"/>
+    <team reference="30"/>
+  </match>
+  <match id="93">
+    <team reference="29"/>
+    <team reference="31"/>
+  </match>
+  <match id="94">
+    <team reference="29"/>
+    <team reference="32"/>
+  </match>
+  <match id="95">
+    <team reference="29"/>
+    <team reference="33"/>
+  </match>
+  <match id="96">
+    <team reference="29"/>
+    <team reference="34"/>
+  </match>
+  <match id="97">
+    <team reference="30"/>
+    <team reference="31"/>
+  </match>
+  <match id="98">
+    <team reference="30"/>
+    <team reference="32"/>
+  </match>
+  <match id="99">
+    <team reference="30"/>
+    <team reference="33"/>
+  </match>
+  <match id="100">
+    <team reference="30"/>
+    <team reference="34"/>
+  </match>
+  <match id="101">
+    <team reference="31"/>
+    <team reference="32"/>
+  </match>
+  <match id="102">
+    <team reference="31"/>
+    <team reference="33"/>
+  </match>
+  <match id="103">
+    <team reference="31"/>
+    <team reference="34"/>
+  </match>
+  <match id="104">
+    <team reference="32"/>
+    <team reference="33"/>
+  </match>
+  <match id="105">
+    <team reference="32"/>
+    <team reference="34"/>
+  </match>
+  <match id="106">
+    <team reference="33"/>
+    <team reference="34"/>
+  </match>
+  <match id="107">
+    <team reference="35"/>
+    <team reference="36"/>
+  </match>
+  <match id="108">
+    <team reference="35"/>
+    <team reference="37"/>
+  </match>
+  <match id="109">
+    <team reference="35"/>
+    <team reference="38"/>
+  </match>
+  <match id="110">
+    <team reference="35"/>
+    <team reference="39"/>
+  </match>
+  <match id="111">
+    <team reference="35"/>
+    <team reference="40"/>
+  </match>
+  <match id="112">
+    <team reference="36"/>
+    <team reference="37"/>
+  </match>
+  <match id="113">
+    <team reference="36"/>
+    <team reference="38"/>
+  </match>
+  <match id="114">
+    <team reference="36"/>
+    <team reference="39"/>
+  </match>
+  <match id="115">
+    <team reference="36"/>
+    <team reference="40"/>
+  </match>
+  <match id="116">
+    <team reference="37"/>
+    <team reference="38"/>
+  </match>
+  <match id="117">
+    <team reference="37"/>
+    <team reference="39"/>
+  </match>
+  <match id="118">
+    <team reference="37"/>
+    <team reference="40"/>
+  </match>
+  <match id="119">
+    <team reference="38"/>
+    <team reference="39"/>
+  </match>
+  <match id="120">
+    <team reference="38"/>
+    <team reference="40"/>
+  </match>
+  <match id="121">
+    <team reference="39"/>
+    <team reference="40"/>
+  </match>
+  <match id="122">
+    <team reference="41"/>
+    <team reference="42"/>
+  </match>
+  <match id="123">
+    <team reference="41"/>
+    <team reference="43"/>
+  </match>
+  <match id="124">
+    <team reference="41"/>
+    <team reference="44"/>
+  </match>
+  <match id="125">
+    <team reference="41"/>
+    <team reference="45"/>
+  </match>
+  <match id="126">
+    <team reference="41"/>
+    <team reference="46"/>
+  </match>
+  <match id="127">
+    <team reference="42"/>
+    <team reference="43"/>
+  </match>
+  <match id="128">
+    <team reference="42"/>
+    <team reference="44"/>
+  </match>
+  <match id="129">
+    <team reference="42"/>
+    <team reference="45"/>
+  </match>
+  <match id="130">
+    <team reference="42"/>
+    <team reference="46"/>
+  </match>
+  <match id="131">
+    <team reference="43"/>
+    <team reference="44"/>
+  </match>
+  <match id="132">
+    <team reference="43"/>
+    <team reference="45"/>
+  </match>
+  <match id="133">
+    <team reference="43"/>
+    <team reference="46"/>
+  </match>
+  <match id="134">
+    <team reference="44"/>
+    <team reference="45"/>
+  </match>
+  <match id="135">
+    <team reference="44"/>
+    <team reference="46"/>
+  </match>
+  <match id="136">
+    <team reference="45"/>
+    <team reference="46"/>
+  </match>
 </tournament>

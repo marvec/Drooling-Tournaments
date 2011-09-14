@@ -16,12 +16,10 @@
 	    </scoreDefinition>
 	    <constructionHeuristic>
 	        <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
-	        <constructionHeuristicPickEarlyType>FIRST_LAST_STEP_SCORE_EQUAL_OR_IMPROVING</constructionHeuristicPickEarlyType>
 	    </constructionHeuristic>
         <termination>
             <terminationCompositionStyle>OR</terminationCompositionStyle>
-            <maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
-            <maximumMinutesSpend>1</maximumMinutesSpend>
+            <maximumMinutesSpend>5</maximumMinutesSpend>
             <scoreAttained>0hard/0soft</scoreAttained>
         </termination> 
     </solver>

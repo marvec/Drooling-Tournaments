@@ -53,4 +53,100 @@
   <team id="23" name="U3">
     <group reference="5"/>
   </team>
+  <match id="24">
+    <team reference="8"/>
+    <team reference="9"/>
+  </match>
+  <match id="25">
+    <team reference="8"/>
+    <team reference="10"/>
+  </match>
+  <match id="26">
+    <team reference="8"/>
+    <team reference="11"/>
+  </match>
+  <match id="27">
+    <team reference="9"/>
+    <team reference="10"/>
+  </match>
+  <match id="28">
+    <team reference="9"/>
+    <team reference="11"/>
+  </match>
+  <match id="29">
+    <team reference="10"/>
+    <team reference="11"/>
+  </match>
+  <match id="30">
+    <team reference="12"/>
+    <team reference="13"/>
+  </match>
+  <match id="31">
+    <team reference="12"/>
+    <team reference="14"/>
+  </match>
+  <match id="32">
+    <team reference="12"/>
+    <team reference="15"/>
+  </match>
+  <match id="33">
+    <team reference="13"/>
+    <team reference="14"/>
+  </match>
+  <match id="34">
+    <team reference="13"/>
+    <team reference="15"/>
+  </match>
+  <match id="35">
+    <team reference="14"/>
+    <team reference="15"/>
+  </match>
+  <match id="36">
+    <team reference="16"/>
+    <team reference="17"/>
+  </match>
+  <match id="37">
+    <team reference="16"/>
+    <team reference="18"/>
+  </match>
+  <match id="38">
+    <team reference="16"/>
+    <team reference="19"/>
+  </match>
+  <match id="39">
+    <team reference="17"/>
+    <team reference="18"/>
+  </match>
+  <match id="40">
+    <team reference="17"/>
+    <team reference="19"/>
+  </match>
+  <match id="41">
+    <team reference="18"/>
+    <team reference="19"/>
+  </match>
+  <match id="42">
+    <team reference="20"/>
+    <team reference="21"/>
+  </match>
+  <match id="43">
+    <team reference="20"/>
+    <team reference="22"/>
+  </match>
+  <match id="44">
+    <team reference="20"/>
+    <team reference="23"/>
+  </match>
+  <match id="45">
+    <team reference="21"/>
+    <team reference="22"/>
+  </match>
+  <match id="46">
+    <team reference="21"/>
+    <team reference="23"/>
+  </match>
+  <match id="47">
+    <team reference="22"/>
+    <team reference="23"/>
+  </match>
 </tournament>

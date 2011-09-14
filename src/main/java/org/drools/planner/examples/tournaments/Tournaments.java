@@ -3,8 +3,6 @@ package org.drools.planner.examples.tournaments;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -14,8 +12,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import org.drools.planner.examples.tournaments.model.Group;
 
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.drools.planner.config.XmlSolverConfigurer;
@@ -35,29 +31,10 @@ public final class Tournaments {
         private Double time;
         private Solver solver;
         
-        private List<Match> createMatchList(TournamentsSolution solution) {
-        	List<Match> matches = new ArrayList<Match>();
-        	for (Group g: solution.getGroups()) {
-                Collection<Team> processedTeams = new HashSet<Team>();
-            	for (Team t1: solution.getTeams()) {
-            	    if (!t1.getGroup().equals(g)) continue; // no matches outside a group
-            		for (Team t2: solution.getTeams()) {
-            			if (t1.equals(t2)) continue; // team cannot play itself
-                        if (!t2.getGroup().equals(g)) continue; // no matches outside a group
-            			if (processedTeams.contains(t2)) continue;
-            			matches.add(new Match(t1, t2));
-            		}
-        			processedTeams.add(t1);
-            	}
-        	}
-            return matches;
-        }
-        
         private TournamentsSolution getInitialSolution() {
             XStream xs = new XStream(new DomDriver());
             xs.processAnnotations(TournamentsSolution.class);
             TournamentsSolution sol = Util.fromXStream(Tournaments.class.getResourceAsStream("/input-large.xml"));
-            sol.setMatchList(createMatchList(sol));
             return sol;
             
         }

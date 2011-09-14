@@ -28,9 +28,9 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
     List<Court> courts = new LinkedList<Court>();
     @XStreamImplicit(itemFieldName = "team")
     List<Team> teams = new LinkedList<Team>();
-        
-    @XStreamOmitField
+    @XStreamImplicit(itemFieldName = "match")
     private List<Match> matchList = new LinkedList<Match>();
+    
     @XStreamOmitField
     private List<Slot> slotList = null;
     @XStreamOmitField
@@ -52,7 +52,7 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
                 }
             }
         }
-        return slotList;
+        return this.slotList;
     }
     
     public Solution<HardAndSoftScore> cloneSolution() {
