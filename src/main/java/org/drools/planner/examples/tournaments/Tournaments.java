@@ -167,10 +167,10 @@ public final class Tournaments {
                 }
                 matches.get(c)[position] = m;
             }
-
-            // output distances
-            // output all
-            outputSpecificCSV(matches.entrySet(), new File(System.getProperty("user.dir"), "ALL.csv"));
+            
+            File rootDir = new File(System.getProperty("user.dir"), "data/");
+            rootDir.mkdirs();
+            outputSpecificCSV(matches.entrySet(), new File(rootDir, "ALL.csv"));
             for (Team t : sol.getTeams()) {
                 Map<Court, Match[]> teamMatches = new HashMap<Court, Match[]>();
                 for (Match m : sol.getMatchList()) {
@@ -182,7 +182,7 @@ public final class Tournaments {
                     }
                     teamMatches.get(c)[position] = m;
                 }
-                outputSpecificCSV(teamMatches.entrySet(), new File(System.getProperty("user.dir"), t.getName() + ".csv"));
+                outputSpecificCSV(teamMatches.entrySet(), new File(rootDir, t.getName() + ".csv"));
             }
         }
     }
