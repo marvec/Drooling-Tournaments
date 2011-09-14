@@ -7,6 +7,7 @@
   <description>Solving the tournament scheduling using Drools Planner</description>
   <properties>
     <drools.version>5.3.0-SNAPSHOT</drools.version>
+    <maven.exec.plugin.version>1.2</maven.exec.plugin.version>
   </properties>
   <dependencies>
     <dependency>
@@ -25,6 +26,12 @@
       <artifactId>commons-math</artifactId>
       <version>2.2</version>
     </dependency>
+    <!-- Benchmarker statistic graphs -->
+    <dependency>
+      <groupId>jfree</groupId>
+      <artifactId>jfreechart</artifactId>
+      <version>1.0.13</version>
+    </dependency>
     <!--  logging -->
     <dependency>
         <groupId>log4j</groupId>
@@ -39,6 +46,43 @@
         <scope>runtime</scope>
     </dependency>
   </dependencies>
+  <profiles>
+    <profile>
+        <id>plan</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+		<build>
+            <defaultGoal>exec:java</defaultGoal>
+		    <plugins>
+				<plugin>
+				  <groupId>org.codehaus.mojo</groupId>
+				  <artifactId>exec-maven-plugin</artifactId>
+				  <version>${maven.exec.plugin.version}</version>
+				  <configuration>
+				    <mainClass>org.drools.planner.examples.tournaments.Tournaments</mainClass>
+				  </configuration>
+				</plugin>
+			</plugins>
+		</build>        
+    </profile>
+    <profile>
+        <id>benchmark</id>
+        <build>
+            <defaultGoal>exec:java</defaultGoal>
+            <plugins>
+                <plugin>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>exec-maven-plugin</artifactId>
+                  <version>${maven.exec.plugin.version}</version>
+                  <configuration>
+                    <mainClass>org.drools.planner.examples.tournaments.Benchmark</mainClass>
+                  </configuration>
+                </plugin>
+            </plugins>
+        </build>        
+    </profile>
+  </profiles>
   <build>
     <plugins>
       <plugin>
@@ -47,14 +91,6 @@
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.2</version>
-        <configuration>
-          <mainClass>org.drools.planner.examples.tournaments.Tournaments</mainClass>
         </configuration>
       </plugin>
       <plugin>
