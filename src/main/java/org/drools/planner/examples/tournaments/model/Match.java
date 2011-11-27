@@ -20,10 +20,18 @@ import org.drools.planner.api.domain.variable.ValueRangeFromSolutionProperty;
 public class Match {
 
     @XStreamImplicit(itemFieldName = "team")
-    private final List<Team> teamsInMatch = new LinkedList<Team>();
+    private final List<Team> teamsInMatch;
     @XStreamAsAttribute
     private Slot slot = null;
     
+    public Match() {
+        this.teamsInMatch = new LinkedList<Team>();
+    }
+
+    public Match(List<Team> teamsInMatch) {
+        this.teamsInMatch = teamsInMatch;
+    }
+
     public Match clone() {
         Match m = new Match();
         m.teamsInMatch.addAll(teamsInMatch);
@@ -50,6 +58,19 @@ public class Match {
         builder.append(slot);
         builder.append("]");
         return builder.toString();
+    }
+
+    public boolean areTeamsShared(Match m) {
+        for (Team t1: this.teamsInMatch) {
+            for (Team t2: m.teamsInMatch) {
+                if (t1 == t2) return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isMinimalDistanceBroken(Match m) {
+        return (Math.abs(m.getSlot().getNumber() - slot.getNumber()) < 2);
     }
 
     @Override

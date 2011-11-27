@@ -34,7 +34,7 @@ public final class Tournaments {
         private TournamentsSolution getInitialSolution() {
             XStream xs = new XStream(new DomDriver());
             xs.processAnnotations(TournamentsSolution.class);
-            TournamentsSolution sol = Util.fromXStream(Tournaments.class.getResourceAsStream("/input-large.xml"));
+            TournamentsSolution sol = Util.fromXStream(Tournaments.class.getResourceAsStream("/input-my.xml"));
             return sol;
             
         }
@@ -65,6 +65,10 @@ public final class Tournaments {
                 // just ignore
             }
         }
+        
+                public boolean isRunning() {
+                        return (solver == null) ? true : solver.isSolving();
+                }
         
         private void outputSchedules(TournamentsSolution sol) {
             System.out.println();
@@ -171,19 +175,15 @@ public final class Tournaments {
      */
     public static void main(final String[] args) throws Exception {
         System.setProperty("drools.lrUnlinkingEnabled", "true");
-        System.out.println("Press any key to start...");
-        System.in.read();
-        Execution e = new Execution();
-        ExecutorService es = Executors.newCachedThreadPool();
+        System.out.println("Computing, press Ctrl+C to stop...");
+        final Execution e = new Execution();
+        final ExecutorService es = Executors.newCachedThreadPool();
         es.execute(e);
-        char c = 0;
-        while (c != 'Y') {
-            System.out.println("Press Y and Enter to stop...");
-            c = (char) System.in.read();
+        while (e.isRunning()) {
+          Thread.sleep(1000);
         }
         e.stop();
         es.shutdownNow();
     }
-    
 
 }

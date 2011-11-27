@@ -4,42 +4,46 @@ import org.drools.planner.core.score.calculator.HardAndSoftConstraintScoreCalcul
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Team;
 
-import function org.drools.planner.examples.tournaments.Util.areTeamsShared
-import function org.drools.planner.examples.tournaments.Util.areSlotsShared
-
 global HardAndSoftConstraintScoreCalculator scoreCalculator;
 
 declare Overhead
     num: Integer
 end
 
-declare Distance
+declare MinimumDistanceBroken
 end
 
-rule "Get underruns per team"
+rule "Find out how many minimal distances between matches have been broken"
     when
         $m1: Match()
-        $m2: Match(this != $m1, areTeamsShared($m1.teams, this.teams) || areSlotsShared($m1, this))
+        Match(this != $m1, this.isMinimalDistanceBroken($m1), this.areTeamsShared($m1))
     then
-        int distance = Math.abs($m1.getSlot().getNumber() - $m2.getSlot().getNumber());
-        if (distance < 2) {
-            // if inside a rule; ugly, but performs much faster then filtering in the later accumulate
-            insertLogical(
-                new Distance()
-            );
-        }
+        insertLogical(
+            new MinimumDistanceBroken()
+        );
+end
+
+rule "Find out how many matches share a single slot"
+    when
+        $m1: Match()
+        Match(this != $m1, slot == $m1.slot)
+    then
+        insertLogical(
+            new MinimumDistanceBroken()
+        );
 end
 
 rule "Get overhead per team"
     when
         $t: Team()
         accumulate(
-            Match($m: this, teams contains $t),
-            $min: min($m.getSlot().getNumber()),
-            $max: max($m.getSlot().getNumber()),
-            $count: count($m.getSlot().getNumber())
+            Match($num: this.slot.number, teams contains $t),
+            $min: min($num),
+            $max: max($num),
+            $count: count($num)
         )
     then
+        // the "1" means that we tolerate overhead in range from 0 to 1.
         insertLogical(
             new Overhead($max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1))
         );
@@ -48,20 +52,19 @@ end
 rule "Hard score means how many teams have matches directly adjacent"
     when
         $total : Number () from accumulate(
-            Distance(),
+            MinimumDistanceBroken(),
             count()
         )
     then
         scoreCalculator.setHardConstraintsBroken($total.intValue());
 end
 
-rule "Soft score is a function of max slot distance and their sum"
+rule "Soft score is a sum of all the overheads"
     when
-        accumulate(
-            Overhead($overhead : num, num > 0),
-            $max: max($overhead),       
-            $sum: sum($overhead)
+        $total : Number () from accumulate(
+            Overhead($num: num, num > 0),
+            sum($num)
         )
     then
-        scoreCalculator.setSoftConstraintsBroken($max.intValue() * $sum.intValue());
+        scoreCalculator.setSoftConstraintsBroken($total.intValue());
 end

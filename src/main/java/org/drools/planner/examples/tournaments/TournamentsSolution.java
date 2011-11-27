@@ -60,7 +60,8 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
         s.groups = groups;
         s.teams = teams;
         s.courts = courts;
-        for (Match m: matchList) {
+//        s.matchList = matchList;
+        for (Match m : matchList) {
             s.matchList.add(m.clone());
         }
         s.setScore(getScore());
@@ -70,6 +71,7 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
     public Collection<? extends Object> getProblemFacts() {
         List<Object> l = new ArrayList<Object>();
         l.addAll(getTeams());
+
         return l;
     }
 
@@ -108,13 +110,78 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
         return Collections.unmodifiableCollection(this.groups);
     }
     
+    // Suppose any order of Teams and generate matches like following:
+    // X vs. Y for all X, Y from Teams where X.Group == Y.Group and X != Y and X < Y
+    private List<Match> generateMatches() {
+        List<Match> matches = new LinkedList<>();
+        Team[] teams = this.teams.toArray(new Team[this.teams.size()]);
+
+        for (int i = 0; i < teams.length; i++) {
+            for (int j = i + 1; j < teams.length; j++) {
+                Team teamA = teams[i];
+                Team teamB = teams[j];
+                if (teamA.getGroup() == teamB.getGroup()) {
+                    List<Team> teamsInMatch = new LinkedList<>();
+                    teamsInMatch.add(teamA);
+                    teamsInMatch.add(teamB);
+                    Match m = new Match(teamsInMatch);
+                    matches.add(m);
+                }
+            }
+        }
+
+        return Collections.unmodifiableList(matches);
+    }
+
+    
     @PlanningEntityCollectionProperty
     public Collection<Match> getMatchList() {
+        if (matchList == null || matchList.size() == 0) {
+            matchList= generateMatches();
+        }
         return this.matchList;
     }
     
     public void setMatchList(List<Match> matches) {
     	this.matchList = matches;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((matchList == null) ? 0 : matchList.hashCode());
+        result = prime * result + ((score == null) ? 0 : score.hashCode());
+        return result;
+    }
+        
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof TournamentsSolution)) {
+            return false;
+        }
+        TournamentsSolution other = (TournamentsSolution) obj;
+        if (score == null) {
+            if (other.score != null) {
+                return false;
+            }
+        } else if (!score.equals(other.score)) {
+            return false;
+        } 
+        if (matchList == null) {
+            if (other.matchList != null) {
+                return false;
+            }
+        } else if (!matchList.equals(other.matchList)) {
+            return false;
+        } 
+        return true;
     }
     
 }

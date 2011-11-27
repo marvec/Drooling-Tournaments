@@ -5,8 +5,9 @@
   <warmUpSecondsSpend>30</warmUpSecondsSpend>
   <inheritedSolverBenchmark>
     <unsolvedSolutionFile>src/main/resources/input-tiny.xml</unsolvedSolutionFile>
-    <unsolvedSolutionFile>src/main/resources/input-large.xml</unsolvedSolutionFile>
-    <unsolvedSolutionFile>src/main/resources/input-monster.xml</unsolvedSolutionFile>
+    <unsolvedSolutionFile>src/main/resources/input-my.xml</unsolvedSolutionFile>
+    <!--unsolvedSolutionFile>src/main/resources/input-large.xml</unsolvedSolutionFile>
+    <unsolvedSolutionFile>src/main/resources/input-monster.xml</unsolvedSolutionFile-->
     <solver>
 	    <solutionClass>org.drools.planner.examples.tournaments.TournamentsSolution</solutionClass>
 	    <planningEntityClass>org.drools.planner.examples.tournaments.model.Match</planningEntityClass>

@@ -14,6 +14,7 @@ import org.drools.planner.examples.tournaments.move.FillSlotMove;
 
 public class FillSlotMoveFactory extends CachedMoveFactory {
 
+    @Override
     public List<Move> createCachedMoveList(@SuppressWarnings("rawtypes") Solution arg0) {
         TournamentsSolution sol = (TournamentsSolution) arg0;
         List<Move> moves = new LinkedList<Move>();

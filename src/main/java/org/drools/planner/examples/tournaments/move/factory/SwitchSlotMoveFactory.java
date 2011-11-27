@@ -15,6 +15,7 @@ import org.drools.planner.examples.tournaments.move.SwitchSlotMove;
 
 public class SwitchSlotMoveFactory extends CachedMoveFactory {
 
+    @Override
     public List<Move> createCachedMoveList(@SuppressWarnings("rawtypes") Solution arg0) {
         TournamentsSolution sol = (TournamentsSolution)arg0;
         List<Move> moves = new LinkedList<Move>();

@@ -8,9 +8,11 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 public class Slot {
 
     @XStreamAsAttribute
-    private final Court court;
+    private Court court;
     @XStreamAsAttribute
-    private final int number;
+    private int number;
+
+    public Slot() { }
 
     public Slot(Court c, int number) {
         if (number < 0) {
