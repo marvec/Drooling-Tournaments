@@ -8,25 +8,25 @@ import org.drools.runtime.rule.FactHandle;
 
 /**
  * The purpose of this move is to fill empty spaces in the roster.
- * @author lpetrovi
+ * @author lpetrovi,mvecera
  *
  */
 public class FillSlotMove implements Move {
 
-    private final Match match;
-    private final Slot newSlot;
+    private final Match newMatch;
+    private final Slot slot;
 
-    public FillSlotMove(Match m1, Slot newSlot) {
-        match = m1;
-        this.newSlot = newSlot;
+    public FillSlotMove(Match newMatch, Slot slot) {
+        this.newMatch = newMatch;
+        this.slot = slot;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((match == null) ? 0 : match.hashCode());
-        result = prime * result + ((newSlot == null) ? 0 : newSlot.hashCode());
+        result = prime * result + ((newMatch == null) ? 0 : newMatch.hashCode());
+        result = prime * result + ((slot == null) ? 0 : slot.hashCode());
         return result;
     }
 
@@ -42,18 +42,18 @@ public class FillSlotMove implements Move {
             return false;
         }
         FillSlotMove other = (FillSlotMove) obj;
-        if (match == null) {
-            if (other.match != null) {
+        if (newMatch == null) {
+            if (other.newMatch != null) {
                 return false;
             }
-        } else if (!match.equals(other.match)) {
+        } else if (!newMatch.equals(other.newMatch)) {
             return false;
         }
-        if (newSlot == null) {
-            if (other.newSlot != null) {
+        if (slot == null) {
+            if (other.slot != null) {
                 return false;
             }
-        } else if (!newSlot.equals(other.newSlot)) {
+        } else if (!slot.equals(other.slot)) {
             return false;
         }
         return true;
@@ -63,28 +63,28 @@ public class FillSlotMove implements Move {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("FillSlotMove [match=");
-        builder.append(match);
+        builder.append(newMatch);
         builder.append(", ");
-        builder.append(newSlot);
+        builder.append(slot);
         builder.append("]");
         return builder.toString();
     }
 
     @Override
     public Move createUndoMove(WorkingMemory arg0) {
-        return new FillSlotMove(match, match.getSlot());
+        return new FillSlotMove(slot.getMatch(), slot);
     }
 
     @Override
     public void doMove(WorkingMemory arg0) {
-        match.setSlot(newSlot);
-        FactHandle fh1 = arg0.getFactHandle(match);
-        arg0.update(fh1, match);
+        slot.setMatch(newMatch);
+        FactHandle fh1 = arg0.getFactHandle(slot);
+        arg0.update(fh1, slot);
     }
 
     @Override
     public boolean isMoveDoable(WorkingMemory arg0) {
-        if (match.getSlot().equals(newSlot)) {
+        if (slot.getMatch().equals(newMatch)) {
             return false;
         }
         return true;

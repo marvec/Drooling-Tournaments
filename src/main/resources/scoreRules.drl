@@ -3,6 +3,7 @@ package org.drools.planner.examples.tournaments;
 import org.drools.planner.core.score.calculator.HardAndSoftConstraintScoreCalculator;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Team;
+import org.drools.planner.examples.tournaments.model.Slot;
 
 global HardAndSoftConstraintScoreCalculator scoreCalculator;
 
@@ -15,18 +16,18 @@ end
 
 rule "Find out how many minimal distances between matches have been broken"
     when
-        $m1: Match()
-        Match(this != $m1, this.isMinimalDistanceBroken($m1), this.areTeamsShared($m1))
+	$s1: Slot($m1: match)
+	Slot(this != $s1, this.isMinimalDistanceBroken($s1), this.match.areTeamsShared($m1))
     then
         insertLogical(
             new MinimumDistanceBroken()
         );
 end
 
-rule "Find out how many matches share a single slot"
+rule "Find out how many slots share a single match"
     when
-        $m1: Match()
-        Match(this != $m1, slot == $m1.slot)
+        $s1: Slot()
+        Slot(this != $s1, match == $s1.match) 
     then
         insertLogical(
             new MinimumDistanceBroken()
@@ -36,8 +37,9 @@ end
 rule "Get overhead per team"
     when
         $t: Team()
+        $m: Match(teams contains $t)
         accumulate(
-            Match($num: this.slot.number, teams contains $t),
+            Slot($num: number, match == $m),
             $min: min($num),
             $max: max($num),
             $count: count($num)

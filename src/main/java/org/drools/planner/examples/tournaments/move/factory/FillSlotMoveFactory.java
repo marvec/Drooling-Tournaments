@@ -17,10 +17,10 @@ public class FillSlotMoveFactory extends CachedMoveFactory {
     @Override
     public List<Move> createCachedMoveList(@SuppressWarnings("rawtypes") Solution arg0) {
         TournamentsSolution sol = (TournamentsSolution) arg0;
-        List<Move> moves = new LinkedList<Move>();
-        for (Match m1 : sol.getMatchList()) {
-            for (Slot s: sol.getSlotList()) {
-            	moves.add(new FillSlotMove(m1, s));
+        List<Move> moves = new LinkedList<>();
+        for (Slot s: sol.getSlotList()) {
+            for (Match m : sol.getMatchList()) {
+                moves.add(new FillSlotMove(m, s));
             }
         }
         return moves;

@@ -1,9 +1,13 @@
 package org.drools.planner.examples.tournaments.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.drools.planner.api.domain.entity.PlanningEntity;
+import org.drools.planner.api.domain.variable.PlanningVariable;
+import org.drools.planner.api.domain.variable.ValueRangeFromSolutionProperty;
+
+@PlanningEntity
 @XStreamAlias(value = "slot")
 public class Slot {
 
@@ -11,6 +15,8 @@ public class Slot {
     private Court court;
     @XStreamAsAttribute
     private int number;
+    @XStreamAsAttribute
+    private Match match = null;
 
     public Slot() { }
 
@@ -24,10 +30,21 @@ public class Slot {
         court = c;
         this.number = number;
     }
+    
+    public Slot clone() {
+      Slot s = new Slot(court, number);
+      s.setMatch(match);
+      
+      return s;
+    }
+
+    public boolean isMinimalDistanceBroken(Slot s) {
+        return (Math.abs(number - s.number) < 2);
+    }
 
     @Override
     public String toString() {
-        return "Slot [" + court + ", " + number + "]";
+        return "Slot [" + court + ", " + number + ", match=" + match + "]";
     }
 
     @Override
@@ -35,6 +52,7 @@ public class Slot {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((court == null) ? 0 : court.hashCode());
+        result = prime * result + ((match == null) ? 0 : match.hashCode());
         result = prime * result + number;
         return result;
     }
@@ -55,10 +73,7 @@ public class Slot {
             if (other.court != null) {
                 return false;
             }
-        } else if (!court.equals(other.court)) {
-            return false;
-        }
-        if (number != other.number) {
+        } else if (!court.equals(other.court) || number != other.number || !match.equals(other.match)) {
             return false;
         }
         return true;
@@ -68,6 +83,16 @@ public class Slot {
         return court;
     }
 
+    @PlanningVariable
+    @ValueRangeFromSolutionProperty(propertyName = "matchList")
+    public Match getMatch() {
+        return match;
+    }
+    
+    public void setMatch(Match m) {
+        match = m;
+    }
+    
     public int getNumber() {
         return number;
     }

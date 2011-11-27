@@ -16,11 +16,18 @@ import org.drools.planner.examples.tournaments.model.Slot;
  */
 public class SwitchSlotMove implements Move {
 
+    private final Set<Slot> slots = new HashSet<>(2);
+
+    public SwitchSlotMove(Slot s1, Slot s2) {
+        slots.add(s1);
+        slots.add(s2);
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("SwitchSlotMove [");
-        builder.append(matches);
+        builder.append(slots);
         builder.append("]");
         return builder.toString();
     }
@@ -29,7 +36,7 @@ public class SwitchSlotMove implements Move {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((matches == null) ? 0 : matches.hashCode());
+        result = prime * result + ((slots == null) ? 0 : slots.hashCode());
         return result;
     }
 
@@ -45,57 +52,48 @@ public class SwitchSlotMove implements Move {
             return false;
         }
         SwitchSlotMove other = (SwitchSlotMove) obj;
-        if (matches == null) {
-            if (other.matches != null) {
+        if (slots == null) {
+            if (other.slots != null) {
                 return false;
             }
-        } else if (!matches.equals(other.matches)) {
+        } else if (!slots.equals(other.slots)) {
             return false;
         }
         return true;
     }
 
-    private final Set<Match> matches = new HashSet<Match>();
-
-    public SwitchSlotMove(Match m1, Match m2) {
-        matches.add(m1);
-        matches.add(m2);
-    }
-
     @Override
     public Move createUndoMove(WorkingMemory arg0) {
-        return this;
+   		return this;
     }
 
-    private Match[] getMatches() {
-        return matches.toArray(new Match[2]);
+    private Slot[] getSlots() {
+        return slots.toArray(new Slot[slots.size()]);
     }
 
-    private void updateMatch(WorkingMemory wm, Match m) {
-        wm.update(wm.getFactHandle(m), m);
+    private void updateSlot(WorkingMemory wm, Slot s) {
+        wm.update(wm.getFactHandle(s), s);
     }
 
     @Override
     public void doMove(WorkingMemory arg0) {
-        Match[] m = getMatches();
-        Match match1 = m[0];
-        Match match2 = m[1];
-        Slot s = match1.getSlot();
-        match1.setSlot(match2.getSlot());
-        match2.setSlot(s);
-        updateMatch(arg0, match1);
-        updateMatch(arg0, match2);
+        Slot[] s = getSlots();
+        Match m = s[0].getMatch();
+        s[0].setMatch(s[1].getMatch());
+        s[1].setMatch(m);
+        updateSlot(arg0, s[0]);
+        updateSlot(arg0, s[1]);
     }
 
     @Override
     public boolean isMoveDoable(WorkingMemory arg0) {
-        Match[] m = getMatches();
-        Match match1 = m[0];
-        Match match2 = m[1];
-        if (match1.equals(match2)) {
+        Slot[] s = getSlots();
+        Slot s1 = s[0];
+        Slot s2 = s[1];
+        if (s1.equals(s2)) {
             return false;
         }
-        if (match1.getSlot().getNumber() == match2.getSlot().getNumber()) {
+        if (s1.getNumber() == s2.getNumber()) {
             // switching matches in the same time slot doesn't help us
             return false;
         }

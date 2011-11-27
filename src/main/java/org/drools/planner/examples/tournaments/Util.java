@@ -4,28 +4,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.acl.Group;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
-import com.thoughtworks.xstream.core.ReferenceByIdMarshallingStrategy;
 
 import org.drools.planner.examples.tournaments.model.Court;
-
-import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
-
-import com.thoughtworks.xstream.converters.reflection.NativeFieldKeySorter;
+import org.drools.planner.examples.tournaments.model.Group;
+import org.drools.planner.examples.tournaments.model.Match;
+import org.drools.planner.examples.tournaments.model.Slot;
+import org.drools.planner.examples.tournaments.model.Team;
 
 import com.thoughtworks.xstream.XStream;
-
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
-
-import org.drools.ObjectFilter;
-import org.drools.WorkingMemory;
-import org.drools.planner.examples.tournaments.model.Match;
-import org.drools.planner.examples.tournaments.model.Team;
+import com.thoughtworks.xstream.converters.reflection.NativeFieldKeySorter;
+import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
+import com.thoughtworks.xstream.core.ReferenceByIdMarshallingStrategy;
 
 
 public class Util {
@@ -46,6 +36,8 @@ public class Util {
         xs.processAnnotations(Court.class);
         xs.processAnnotations(Group.class);
         xs.processAnnotations(Team.class);
+        xs.processAnnotations(Slot.class);
+        xs.processAnnotations(Match.class);
         return xs;
     }
     

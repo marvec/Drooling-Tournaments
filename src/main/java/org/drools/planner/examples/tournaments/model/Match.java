@@ -5,24 +5,14 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
-import org.drools.planner.api.domain.entity.PlanningEntity;
-import org.drools.planner.api.domain.variable.PlanningVariable;
-import org.drools.planner.api.domain.variable.ValueRangeFromSolutionProperty;
-
-@PlanningEntity
 @XStreamAlias(value = "match")
 public class Match {
 
     @XStreamImplicit(itemFieldName = "team")
     private final List<Team> teamsInMatch;
-    @XStreamAsAttribute
-    private Slot slot = null;
     
     public Match() {
         this.teamsInMatch = new LinkedList<Team>();
@@ -32,18 +22,17 @@ public class Match {
         this.teamsInMatch = teamsInMatch;
     }
 
-    public Match clone() {
+/*    public Match clone() {
         Match m = new Match();
         m.teamsInMatch.addAll(teamsInMatch);
-        m.slot = slot;
         return m;
-    }
+    }*/
     
-    @PlanningVariable
+/*    @PlanningVariable
     @ValueRangeFromSolutionProperty(propertyName = "slotList")
     public Slot getSlot() {
         return slot;
-    }
+    }*/
     
     public Collection<Team> getTeams() {
         return Collections.unmodifiableList(teamsInMatch);
@@ -54,8 +43,6 @@ public class Match {
         StringBuilder builder = new StringBuilder();
         builder.append("Match [teamsInMatch=");
         builder.append(teamsInMatch);
-        builder.append(", slot=");
-        builder.append(slot);
         builder.append("]");
         return builder.toString();
     }
@@ -67,10 +54,6 @@ public class Match {
             }
         }
         return false;
-    }
-
-    public boolean isMinimalDistanceBroken(Match m) {
-        return (Math.abs(m.getSlot().getNumber() - slot.getNumber()) < 2);
     }
 
     @Override
@@ -101,10 +84,6 @@ public class Match {
             return false;
         }
         return true;
-    }
-
-    public void setSlot(Slot slot) {
-        this.slot = slot;
     }
 
 }

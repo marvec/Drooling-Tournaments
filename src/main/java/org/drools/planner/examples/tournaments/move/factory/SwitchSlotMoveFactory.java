@@ -9,7 +9,7 @@ import org.drools.planner.core.move.Move;
 import org.drools.planner.core.move.factory.CachedMoveFactory;
 import org.drools.planner.core.solution.Solution;
 import org.drools.planner.examples.tournaments.TournamentsSolution;
-import org.drools.planner.examples.tournaments.model.Match;
+import org.drools.planner.examples.tournaments.model.Slot;
 import org.drools.planner.examples.tournaments.move.SwitchSlotMove;
 
 
@@ -17,13 +17,13 @@ public class SwitchSlotMoveFactory extends CachedMoveFactory {
 
     @Override
     public List<Move> createCachedMoveList(@SuppressWarnings("rawtypes") Solution arg0) {
-        TournamentsSolution sol = (TournamentsSolution)arg0;
-        List<Move> moves = new LinkedList<Move>();
-        Set<Match> unvisited = new HashSet<Match>(sol.getMatchList());
-        for (Match m1 : sol.getMatchList()) {
-            unvisited.remove(m1);
-            for (Match m2 : unvisited) {
-                moves.add(new SwitchSlotMove(m1, m2));
+        TournamentsSolution sol = (TournamentsSolution) arg0;
+        List<Move> moves = new LinkedList<>();
+        Set<Slot> unvisited = new HashSet<>(sol.getSlotList());
+        for (Slot s1 : sol.getSlotList()) {
+            unvisited.remove(s1);
+            for (Slot s2 : unvisited) {
+                moves.add(new SwitchSlotMove(s1, s2));
             }
         }
         return moves;
