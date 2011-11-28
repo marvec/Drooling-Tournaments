@@ -1,0 +1,119 @@
+<tournament id="1">
+  <group id="2" name="X"/>
+  <group id="3" name="Y"/>
+  <group id="4" name="Z"/>
+  <group id="5" name="U"/>
+  <group id="6" name="V"/>
+  <group id="7" name="W"/>
+  <court id="8" name="A"/>
+  <court id="9" name="B"/>
+  <court id="10" name="C"/>
+  <team id="11" name="X0">
+    <group reference="2"/>
+  </team>
+  <team id="12" name="X1">
+    <group reference="2"/>
+  </team>
+  <team id="13" name="X2">
+    <group reference="2"/>
+  </team>
+  <team id="14" name="X3">
+    <group reference="2"/>
+  </team>
+  <team id="15" name="X4">
+    <group reference="2"/>
+  </team>
+  <team id="16" name="X5">
+    <group reference="2"/>
+  </team>
+  <team id="17" name="Y0">
+    <group reference="3"/>
+  </team>
+  <team id="18" name="Y1">
+    <group reference="3"/>
+  </team>
+  <team id="19" name="Y2">
+    <group reference="3"/>
+  </team>
+  <team id="20" name="Y3">
+    <group reference="3"/>
+  </team>
+  <team id="21" name="Y4">
+    <group reference="3"/>
+  </team>
+  <team id="22" name="Y5">
+    <group reference="3"/>
+  </team>
+  <team id="23" name="Z0">
+    <group reference="4"/>
+  </team>
+  <team id="24" name="Z1">
+    <group reference="4"/>
+  </team>
+  <team id="25" name="Z2">
+    <group reference="4"/>
+  </team>
+  <team id="26" name="Z3">
+    <group reference="4"/>
+  </team>
+  <team id="27" name="Z4">
+    <group reference="4"/>
+  </team>
+  <team id="28" name="Z5">
+    <group reference="4"/>
+  </team>
+  <team id="29" name="U0">
+    <group reference="5"/>
+  </team>
+  <team id="30" name="U1">
+    <group reference="5"/>
+  </team>
+  <team id="31" name="U2">
+    <group reference="5"/>
+  </team>
+  <team id="32" name="U3">
+    <group reference="5"/>
+  </team>
+  <team id="33" name="U4">
+    <group reference="5"/>
+  </team>
+  <team id="34" name="U5">
+    <group reference="5"/>
+  </team>
+  <team id="35" name="V0">
+    <group reference="6"/>
+  </team>
+  <team id="36" name="V1">
+    <group reference="6"/>
+  </team>
+  <team id="37" name="V2">
+    <group reference="6"/>
+  </team>
+  <team id="38" name="V3">
+    <group reference="6"/>
+  </team>
+  <team id="39" name="V4">
+    <group reference="6"/>
+  </team>
+  <team id="40" name="V5">
+    <group reference="6"/>
+  </team>
+  <team id="41" name="W0">
+    <group reference="7"/>
+  </team>
+  <team id="42" name="W1">
+    <group reference="7"/>
+  </team>
+  <team id="43" name="W2">
+    <group reference="7"/>
+  </team>
+  <team id="44" name="W3">
+    <group reference="7"/>
+  </team>
+  <team id="45" name="W4">
+    <group reference="7"/>
+  </team>
+  <team id="46" name="W5">
+    <group reference="7"/>
+  </team>
+</tournament>

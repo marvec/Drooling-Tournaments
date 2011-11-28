@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <solver>
-    <environmentMode>PRODUCTION</environmentMode>
+    <environmentMode>DEBUG</environmentMode>
     <solutionClass>org.drools.planner.examples.tournaments.TournamentsSolution</solutionClass>
     <planningEntityClass>org.drools.planner.examples.tournaments.model.Slot</planningEntityClass>
     <scoreDrl>/scoreRules.drl</scoreDrl>
@@ -9,6 +9,7 @@
     </scoreDefinition>
     <constructionHeuristic>
         <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+        <!-- constructionHeuristicPickEarlyType>FIRST_LAST_STEP_SCORE_EQUAL_OR_IMPROVING</constructionHeuristicPickEarlyType-->
     </constructionHeuristic>
     <localSearch>
       <termination>
