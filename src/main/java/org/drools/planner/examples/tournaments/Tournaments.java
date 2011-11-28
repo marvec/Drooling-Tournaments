@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.drools.planner.config.XmlSolverConfigurer;
 import org.drools.planner.core.Solver;
+import org.drools.planner.core.score.HardAndSoftScore;
 import org.drools.planner.examples.tournaments.model.Court;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Slot;
@@ -32,7 +33,7 @@ public final class Tournaments {
         private TournamentsSolution getInitialSolution() {
             XStream xs = new XStream(new DomDriver());
             xs.processAnnotations(TournamentsSolution.class);
-            TournamentsSolution sol = Util.fromXStream(Tournaments.class.getResourceAsStream("/input-my.xml"));
+            TournamentsSolution sol = Util.fromXStream(Tournaments.class.getResourceAsStream("/input-my-mid.xml"));
             return sol;
             
         }
@@ -48,6 +49,16 @@ public final class Tournaments {
             solver.solve();
         }
         
+        private void printScore() {
+        	if (solver != null) {
+                TournamentsSolution bestSolution = (TournamentsSolution)solver.getBestSolution();
+                if (bestSolution != null) {
+                    HardAndSoftScore score = (HardAndSoftScore) bestSolution.getScore();
+                    System.out.printf("Score: %d hard/%d soft%n", score.getHardScore(), score.getSoftScore());                	
+                }
+        	}
+        }
+        
         public void stop() {
             solver.terminateEarly();
             time = System.nanoTime() - time;
@@ -55,7 +66,8 @@ public final class Tournaments {
             // report results
             System.out.printf("Done in: %ds%n",
                     Math.max(1, Math.round(((double) time) / 1000 / 1000 / 1000)));
-            TournamentsSolution bestSolution = (TournamentsSolution)solver.getBestSolution();
+            printScore();
+            TournamentsSolution bestSolution = (TournamentsSolution)solver.getBestSolution();            
             outputSchedules(bestSolution);
             try {
                 outputCSV(bestSolution);
@@ -176,6 +188,7 @@ public final class Tournaments {
         es.execute(e);
         while (e.isRunning()) {
           Thread.sleep(1000);
+          e.printScore();
         }
         e.stop();
         es.shutdownNow();
