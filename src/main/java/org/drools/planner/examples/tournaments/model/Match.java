@@ -48,6 +48,12 @@ public class Match {
     }
 
     public boolean areTeamsShared(Match m) {
+    	if (m == null) {
+    		return false;
+    	}
+    	if (this == m) {
+    		return true;
+    	}
         for (Team t1: this.teamsInMatch) {
             for (Team t2: m.teamsInMatch) {
                 if (t1 == t2) return true;

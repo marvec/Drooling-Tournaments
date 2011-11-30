@@ -69,13 +69,16 @@ public class Slot {
             return false;
         }
         Slot other = (Slot) obj;
-        if (court == null) {
-            if (other.court != null) {
-                return false;
-            }
-        } else if (!court.equals(other.court) || number != other.number || !match.equals(other.match)) {
+        if (court == null && other.court != null) {
             return false;
         }
+        if (match == null && other.match != null) {
+        	return false;
+        }
+        if (!court.equals(other.court) || number != other.number || !match.equals(other.match)) {
+            return false;
+        }
+       
         return true;
     }
 

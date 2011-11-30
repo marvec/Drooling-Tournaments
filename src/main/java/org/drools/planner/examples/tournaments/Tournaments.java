@@ -86,7 +86,7 @@ public final class Tournaments {
             for (Team t : sol.getTeams()) {
                 System.out.println("Schedule for " + t + ":");
                 for (Slot s : sol.getSlotList()) {
-                    if (s.getMatch().getTeams().contains(t)) {
+                    if (s.getMatch() != null && s.getMatch().getTeams().contains(t)) {
                         System.out.println("  " + s.getMatch().getTeams() + " @ " + s);
                     }
                 }

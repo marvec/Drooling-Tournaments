@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <solver>
-    <environmentMode>DEBUG</environmentMode>
+    <environmentMode>REPRODUCIBLE</environmentMode>
     <solutionClass>org.drools.planner.examples.tournaments.TournamentsSolution</solutionClass>
     <planningEntityClass>org.drools.planner.examples.tournaments.model.Slot</planningEntityClass>
     <scoreDrl>/scoreRules.drl</scoreDrl>
@@ -30,6 +30,9 @@
            <selector>
              <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
            </selector>
+         <selector>
+             <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.EmptySlotMoveFactory</moveFactoryClass>
+         </selector>
       </selector>
     </localSearch>
     <localSearch>
@@ -51,6 +54,9 @@
            <selector>
 	           <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
 	         </selector>
+         <!-- selector>
+             <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.EmptySlotMoveFactory</moveFactoryClass>
+         </selector-->
 	    </selector>
     </localSearch>
     <localSearch>
