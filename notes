@@ -1,0 +1,8 @@
+(13:27:28) ge0ffrey: while the other design, in wich matchs are assigned to slots (instead of the other way around), allows for slots to have no match (good), but no match to have no slot (also good) and a slot to have multiple matches (not good, but this should be a hard score rules)
+(13:28:06) ge0ffrey: important note: that hard score rules should weight the hard score in how many too many there are. Say you got 4 matches in the same slot, then the hard score should go down by -3
+(13:29:27) salaboy [~salaboy@190.113.149.185] vstoupil do místnosti.
+(13:31:04) mariano [~mariano@209.13.96.227] vstoupil do místnosti.
+(13:31:04) mariano84 opustil místnost (quit: Client closed connection).
+(13:36:28) ge0ffrey: mvecera: I just saw what's wrong with your scores
+(13:36:54) ge0ffrey: mvecera: they aren't using IntConstraintOccurrences(..., causes). The causes thing is important to keep the working memory correct
+(13:37:50) ge0ffrey: you can implement your own, like MinimumDistanceBroken and Overhead, but they should respect causes and weight etc in their equals/hashcode. See IntConstraintOccurence implementation
