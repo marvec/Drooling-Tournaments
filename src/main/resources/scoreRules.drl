@@ -37,9 +37,8 @@ end
 rule "Get overhead per team"
     when
         $t: Team()
-        $m: Match(teams contains $t)
         accumulate(
-            Slot($num: number, match == $m),
+            Slot($num: number, this.match.teams contains $t),
             $min: min($num),
             $max: max($num),
             $count: count($num)
