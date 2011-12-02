@@ -72,7 +72,11 @@ public class SwitchSlotMove implements Move {
     }
 
     private void updateSlot(WorkingMemory wm, Slot s) {
-        wm.update(wm.getFactHandle(s), s);
+    	if (wm.getFactHandle(s) == null) {
+    		//wm.insert(s);
+    		System.out.println("UNKNOWN SLOT " + s);
+    	}
+    	wm.update(wm.getFactHandle(s), s);
     }
 
     @Override

@@ -79,15 +79,19 @@ public class FillSlotMove implements Move {
     public void doMove(WorkingMemory arg0) {
         slot.setMatch(newMatch);
         FactHandle fh1 = arg0.getFactHandle(slot);
+        if (slot.getMatch() == null) {
+        	System.out.println("NULL MATCH");
+        }
+        if (fh1 == null) {
+    		System.out.println("UNKNOWN SLOT " + slot);
+        	
+        }
         arg0.update(fh1, slot);
     }
 
     @Override
     public boolean isMoveDoable(WorkingMemory arg0) {
-        if (slot.getMatch().equals(newMatch)) {
-            return false;
-        }
-        return true;
+        return slot.getMatch() == null || !slot.getMatch().equals(newMatch);
     }
 
 }

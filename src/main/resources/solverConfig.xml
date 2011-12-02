@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <solver>
-    <environmentMode>DEBUG</environmentMode>
+    <environmentMode>PRODUCTION</environmentMode>
     <solutionClass>org.drools.planner.examples.tournaments.TournamentsSolution</solutionClass>
     <planningEntityClass>org.drools.planner.examples.tournaments.model.Slot</planningEntityClass>
     <scoreDrl>/scoreRules.drl</scoreDrl>
@@ -39,15 +39,15 @@
 	        <scoreAttained>0hard/0soft</scoreAttained>
 	    </termination> 
 	    <acceptor>
-	       <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+	       <simulatedAnnealingStartingTemperature>0hard/500soft</simulatedAnnealingStartingTemperature>
 	    </acceptor>
 	    <forager>
 	       <minimalAcceptedSelection>4</minimalAcceptedSelection>
 	    </forager>    
 	    <selector>
-	       <selector>
+	       <!-- selector>
 	           <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
-	       </selector>
+	       </selector-->
            <selector>
 	           <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
 	         </selector>
@@ -60,15 +60,15 @@
             <scoreAttained>0hard/0soft</scoreAttained>
         </termination> 
         <acceptor>
-           <simulatedAnnealingStartingTemperature>0hard/10soft</simulatedAnnealingStartingTemperature>
+           <simulatedAnnealingStartingTemperature>0hard/1000soft</simulatedAnnealingStartingTemperature>
         </acceptor>
         <forager>
            <minimalAcceptedSelection>8</minimalAcceptedSelection>
         </forager>    
         <selector>
-           <selector>
+           <!-- selector>
                <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
-           </selector>
+           </selector-->
            <selector>
                <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
            </selector>

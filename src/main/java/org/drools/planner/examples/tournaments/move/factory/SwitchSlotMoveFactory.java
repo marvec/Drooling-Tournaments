@@ -12,7 +12,6 @@ import org.drools.planner.examples.tournaments.TournamentsSolution;
 import org.drools.planner.examples.tournaments.model.Slot;
 import org.drools.planner.examples.tournaments.move.SwitchSlotMove;
 
-
 public class SwitchSlotMoveFactory extends CachedMoveFactory {
 
     @Override
@@ -20,6 +19,7 @@ public class SwitchSlotMoveFactory extends CachedMoveFactory {
         TournamentsSolution sol = (TournamentsSolution) arg0;
         List<Move> moves = new LinkedList<>();
         Set<Slot> unvisited = new HashSet<>(sol.getSlotList());
+        
         for (Slot s1 : sol.getSlotList()) {
             unvisited.remove(s1);
             for (Slot s2 : unvisited) {
@@ -28,5 +28,4 @@ public class SwitchSlotMoveFactory extends CachedMoveFactory {
         }
         return moves;
     }
-
 }

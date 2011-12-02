@@ -1,44 +1,67 @@
 package org.drools.planner.examples.tournaments;
 
 import org.drools.planner.core.score.calculator.HardAndSoftConstraintScoreCalculator;
+import org.drools.planner.core.score.constraint.IntConstraintOccurrence;
+import org.drools.planner.core.score.constraint.ConstraintType;
+
 import org.drools.planner.examples.tournaments.model.Match;
+import org.drools.planner.examples.tournaments.model.PauseMatch;
+import org.drools.planner.examples.tournaments.model.TeamsMatch;
 import org.drools.planner.examples.tournaments.model.Team;
 import org.drools.planner.examples.tournaments.model.Slot;
 
 global HardAndSoftConstraintScoreCalculator scoreCalculator;
 
-declare Overhead
+/*declare Overhead
     num: Integer
 end
 
 declare MinimumDistanceBroken
-end
+end*/
 
 rule "Find out how many minimal distances between matches have been broken"
     when
-	$s1: Slot($m1: match)
-	Slot(this != $s1, this.isMinimalDistanceBroken($s1), this.match.areTeamsShared($m1))
+		$s1: Slot($m1: match)
+		$s2: Slot(this != $s1, this.isMinimalDistanceBroken($s1), $m2: match)
+		TeamsMatch(this == $m1, this.areTeamsShared($m2))
     then
         insertLogical(
-            new MinimumDistanceBroken()
+			new IntConstraintOccurrence("minimumDistanceBroken", ConstraintType.NEGATIVE_HARD,
+                1, $m1, $s1, $s2)        
         );
 end
 
 rule "Find out how many slots share a single match"
     when
-        $s1: Slot()
-        Slot(this != $s1, match == $s1.match) 
+        $s1: Slot($m: match)
+        accumulate(
+            $slot: Slot(this != $s1, $m == match),
+            $count: count($slot)
+        )
     then
         insertLogical(
-            new MinimumDistanceBroken()
+			new IntConstraintOccurrence("singleMatchShared", ConstraintType.NEGATIVE_HARD,
+                $count.intValue() * 10, $m)        
         );
 end
+
+/*rule "Punish unused pause matches"
+	when
+		$p: PauseMatch()
+		not Slot($p == match)
+    then
+        insertLogical(
+			new IntConstraintOccurrence("unusedPauseMatch", ConstraintType.NEGATIVE_HARD,
+                2, $p)        
+        );
+end*/
+			
 
 rule "Get overhead per team"
     when
         $t: Team()
         accumulate(
-            Slot($num: number, this.match.teams contains $t),
+            Slot($num: number, teams contains $t),
             $min: min($num),
             $max: max($num),
             $count: count($num)
@@ -46,26 +69,31 @@ rule "Get overhead per team"
     then
         // the "1" means that we tolerate overhead in range from 0 to 1.
         insertLogical(
-            new Overhead($max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1))
+			new IntConstraintOccurrence("teamOverhead", ConstraintType.NEGATIVE_SOFT,
+                ($max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1)) *
+                ($max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1)), $t)        
         );
 end
 
 rule "Hard score means how many teams have matches directly adjacent"
+	salience -1
     when
         $total : Number () from accumulate(
-            MinimumDistanceBroken(),
-            count()
+            IntConstraintOccurrence(constraintType == ConstraintType.NEGATIVE_HARD, $weight : weight),
+            sum($weight)
         )
     then
         scoreCalculator.setHardConstraintsBroken($total.intValue());
 end
 
 rule "Soft score is a sum of all the overheads"
+	salience -1
     when
         $total : Number () from accumulate(
-            Overhead($num: num, num > 0),
-            sum($num)
+            IntConstraintOccurrence(constraintType == ConstraintType.NEGATIVE_SOFT, $weight: weight, $weight > 0),
+            sum($weight)
         )
     then
         scoreCalculator.setSoftConstraintsBroken($total.intValue());
 end
+

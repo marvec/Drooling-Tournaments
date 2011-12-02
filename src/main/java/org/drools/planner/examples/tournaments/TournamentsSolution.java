@@ -12,8 +12,10 @@ import org.drools.planner.core.solution.Solution;
 import org.drools.planner.examples.tournaments.model.Court;
 import org.drools.planner.examples.tournaments.model.Group;
 import org.drools.planner.examples.tournaments.model.Match;
+import org.drools.planner.examples.tournaments.model.PauseMatch;
 import org.drools.planner.examples.tournaments.model.Slot;
 import org.drools.planner.examples.tournaments.model.Team;
+import org.drools.planner.examples.tournaments.model.TeamsMatch;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
@@ -47,15 +49,19 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 		return slotList;
 	}
 	
+	private static int getSlotsPerCourt(int matchesCount, int courtsCount) {
+		double idealMatchesPerCourt = Math.ceil((double) matchesCount / courtsCount);
+		double allowedMatchesPerCourt = idealMatchesPerCourt * (1 + MAX_SLOT_OVERFLOW_RATE);
+		int result = (int) Math.round(allowedMatchesPerCourt);
+		
+		return result;
+	}
+	
 	public List<Slot> generateSlots() {
 		List<Slot> slotList = new LinkedList<>();
 		// initialize list of slots
-		double idealMatchesPerCourt = Math.ceil(this.getMatchList().size()
-				/ this.getCourts().size());
-		double allowedMatchesPerCourt = idealMatchesPerCourt
-				* (1 + MAX_SLOT_OVERFLOW_RATE);
-		Integer upperBound = (int) Math.round(allowedMatchesPerCourt);
-		Integer lowerBound = 0;
+		int upperBound = getSlotsPerCourt(getRealMatchCount(), getCourts().size());
+		int lowerBound = 0;
 		for (Court c : this.getCourts()) {
 			for (int i = lowerBound; i < upperBound; i++) {
 				slotList.add(new Slot(c, i));
@@ -136,9 +142,16 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 					List<Team> teamsInMatch = new LinkedList<>();
 					teamsInMatch.add(teamA);
 					teamsInMatch.add(teamB);
-					Match m = new Match(teamsInMatch);
+					TeamsMatch m = new TeamsMatch(teamsInMatch);
 					matches.add(m);
 				}
+			}
+		}
+		
+		int slots = getSlotsPerCourt(matches.size(), getCourts().size()) * getCourts().size();
+		if (slots > matches.size()) {
+			for (int i = 0, matchesSize = matches.size(); i < slots - matchesSize; i++) {
+				matches.add(new PauseMatch());
 			}
 		}
 
@@ -150,6 +163,17 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 			matchList = generateMatches();
 		}
 		return this.matchList;
+	}
+	
+	private int getRealMatchCount() {
+		Collection<Match> matches = getMatchList();
+		int count = 0;
+		for (Match m: matches) {
+			if (m instanceof TeamsMatch) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	public void setMatchList(List<Match> matches) {
