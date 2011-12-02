@@ -4,19 +4,20 @@
   <solverStatisticType>BEST_SOLUTION_CHANGED</solverStatisticType>
   <warmUpSecondsSpend>30</warmUpSecondsSpend>
   <inheritedSolverBenchmark>
-    <unsolvedSolutionFile>src/main/resources/input-tiny.xml</unsolvedSolutionFile>
     <unsolvedSolutionFile>src/main/resources/input-my.xml</unsolvedSolutionFile>
+    <unsolvedSolutionFile>src/main/resources/input-my-mid.xml</unsolvedSolutionFile>
     <!--unsolvedSolutionFile>src/main/resources/input-large.xml</unsolvedSolutionFile>
     <unsolvedSolutionFile>src/main/resources/input-monster.xml</unsolvedSolutionFile-->
     <solver>
 	    <solutionClass>org.drools.planner.examples.tournaments.TournamentsSolution</solutionClass>
-	    <planningEntityClass>org.drools.planner.examples.tournaments.model.Match</planningEntityClass>
+	    <planningEntityClass>org.drools.planner.examples.tournaments.model.Slot</planningEntityClass>
 	    <scoreDrl>/scoreRules.drl</scoreDrl>
 	    <scoreDefinition>
 	        <scoreDefinitionType>HARD_AND_SOFT</scoreDefinitionType>
 	    </scoreDefinition>
 	    <constructionHeuristic>
 	        <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+            <constructionHeuristicPickEarlyType>FIRST_LAST_STEP_SCORE_EQUAL_OR_IMPROVING</constructionHeuristicPickEarlyType>
 	    </constructionHeuristic>
         <termination>
             <terminationCompositionStyle>OR</terminationCompositionStyle>
@@ -38,7 +39,7 @@
            </selector>
         </selector>
         <acceptor>
-           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+           <simulatedAnnealingStartingTemperature>0hard/250soft</simulatedAnnealingStartingTemperature>
         </acceptor>
         <forager>
            <minimalAcceptedSelection>1</minimalAcceptedSelection>
@@ -59,7 +60,7 @@
            </selector>
         </selector>
         <acceptor>
-           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+           <simulatedAnnealingStartingTemperature>0hard/500soft</simulatedAnnealingStartingTemperature>
         </acceptor>
         <forager>
            <minimalAcceptedSelection>2</minimalAcceptedSelection>
@@ -80,7 +81,7 @@
            </selector>
         </selector>
         <acceptor>
-           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+           <simulatedAnnealingStartingTemperature>0hard/500soft</simulatedAnnealingStartingTemperature>
         </acceptor>
         <forager>
            <minimalAcceptedSelection>4</minimalAcceptedSelection>
@@ -101,7 +102,7 @@
            </selector>
         </selector>
         <acceptor>
-           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+           <simulatedAnnealingStartingTemperature>0hard/1000soft</simulatedAnnealingStartingTemperature>
         </acceptor>
         <forager>
            <minimalAcceptedSelection>8</minimalAcceptedSelection>
@@ -122,7 +123,7 @@
            </selector>
         </selector>
         <acceptor>
-           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+           <simulatedAnnealingStartingTemperature>0hard/1000soft</simulatedAnnealingStartingTemperature>
         </acceptor>
         <forager>
            <minimalAcceptedSelection>32</minimalAcceptedSelection>
@@ -143,7 +144,7 @@
            </selector>
         </selector>
         <acceptor>
-           <simulatedAnnealingStartingTemperature>0hard/5soft</simulatedAnnealingStartingTemperature>
+           <simulatedAnnealingStartingTemperature>0hard/1000soft</simulatedAnnealingStartingTemperature>
         </acceptor>
         <forager>
            <minimalAcceptedSelection>16</minimalAcceptedSelection>
