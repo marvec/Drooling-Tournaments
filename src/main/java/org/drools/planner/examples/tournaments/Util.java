@@ -7,7 +7,7 @@ import java.io.InputStream;
 
 import org.drools.planner.examples.tournaments.model.Court;
 import org.drools.planner.examples.tournaments.model.Group;
-import org.drools.planner.examples.tournaments.model.Match;
+import org.drools.planner.examples.tournaments.model.TeamsMatch;
 import org.drools.planner.examples.tournaments.model.Slot;
 import org.drools.planner.examples.tournaments.model.Team;
 
@@ -37,7 +37,7 @@ public class Util {
         xs.processAnnotations(Group.class);
         xs.processAnnotations(Team.class);
         xs.processAnnotations(Slot.class);
-        xs.processAnnotations(Match.class);
+        xs.processAnnotations(TeamsMatch.class);
         return xs;
     }
     

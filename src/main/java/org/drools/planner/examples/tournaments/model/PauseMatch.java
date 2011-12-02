@@ -1,5 +1,5 @@
 package org.drools.planner.examples.tournaments.model;
 
-public interface Match {
+public class PauseMatch implements Match {
 
 }

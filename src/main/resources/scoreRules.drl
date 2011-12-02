@@ -5,6 +5,8 @@ import org.drools.planner.core.score.constraint.IntConstraintOccurrence;
 import org.drools.planner.core.score.constraint.ConstraintType;
 
 import org.drools.planner.examples.tournaments.model.Match;
+import org.drools.planner.examples.tournaments.model.PauseMatch;
+import org.drools.planner.examples.tournaments.model.TeamsMatch;
 import org.drools.planner.examples.tournaments.model.Team;
 import org.drools.planner.examples.tournaments.model.Slot;
 
@@ -19,9 +21,9 @@ end*/
 
 rule "Find out how many minimal distances between matches have been broken"
     when
-		$s1: Slot($m1: match, $m1 != null)
-		$s2: Slot(this != $s1, this.isMinimalDistanceBroken($s1), $m2: match, $m2 != null)
-		Match(this == $m1, this.areTeamsShared($m2))
+		$s1: Slot($m1: match)
+		$s2: Slot(this != $s1, this.isMinimalDistanceBroken($s1), $m2: match)
+		TeamsMatch(this == $m1, this.areTeamsShared($m2))
     then
         insertLogical(
 			new IntConstraintOccurrence("minimumDistanceBroken", ConstraintType.NEGATIVE_HARD,
@@ -31,23 +33,35 @@ end
 
 rule "Find out how many slots share a single match"
     when
-        $s1: Slot($m: match, $m != null)
+        $s1: Slot($m: match)
         accumulate(
-            $slot: Slot(this != $s1, match != null, $m == match),
+            $slot: Slot(this != $s1, $m == match),
             $count: count($slot)
         )
     then
         insertLogical(
 			new IntConstraintOccurrence("singleMatchShared", ConstraintType.NEGATIVE_HARD,
-                $count.intValue(), $m)        
+                $count.intValue() * 10, $m)        
         );
 end
+
+/*rule "Punish unused pause matches"
+	when
+		$p: PauseMatch()
+		not Slot($p == match)
+    then
+        insertLogical(
+			new IntConstraintOccurrence("unusedPauseMatch", ConstraintType.NEGATIVE_HARD,
+                2, $p)        
+        );
+end*/
+			
 
 rule "Get overhead per team"
     when
         $t: Team()
         accumulate(
-            Slot($num: number, match != null, match.teams contains $t),
+            Slot($num: number, teams contains $t),
             $min: min($num),
             $max: max($num),
             $count: count($num)
@@ -56,7 +70,8 @@ rule "Get overhead per team"
         // the "1" means that we tolerate overhead in range from 0 to 1.
         insertLogical(
 			new IntConstraintOccurrence("teamOverhead", ConstraintType.NEGATIVE_SOFT,
-                $max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1), $t)        
+                ($max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1)) *
+                ($max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1)), $t)        
         );
 end
 

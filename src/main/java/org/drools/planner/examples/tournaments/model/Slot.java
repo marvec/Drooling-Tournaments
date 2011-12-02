@@ -1,11 +1,13 @@
 package org.drools.planner.examples.tournaments.model;
 
-import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import java.util.Collection;
 
 import org.drools.planner.api.domain.entity.PlanningEntity;
 import org.drools.planner.api.domain.variable.PlanningVariable;
 import org.drools.planner.api.domain.variable.ValueRangeFromSolutionProperty;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 @PlanningEntity
 @XStreamAlias(value = "slot")
@@ -98,6 +100,14 @@ public class Slot {
     
     public int getNumber() {
         return number;
+    }
+    
+    public Collection<Team> getTeams() {
+    	if (match instanceof TeamsMatch) {
+    		return ((TeamsMatch) match).getTeams();
+    	} else {
+    		return null;
+    	}
     }
 
 }
