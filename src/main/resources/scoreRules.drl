@@ -49,7 +49,7 @@ end
     then
     	insertLogical(
     		new IntConstraintOccurrence("teamWaitTime", ConstraintType.NEGATIVE_SOFT,
-    			Math.abs($num1 - $num2) - 2, $t, $s1, $s2)
+    			Math.max(0, Math.abs($num1 - $num2) - 2), $t, $s1, $s2)
     	);
 end*/ 
 
@@ -60,18 +60,20 @@ rule "Get overhead per team"
             $s: Slot($num: number, teams contains $t),
             $min: min($num),
             $max: max($num),
-            $sset: collectList($s),
-            $count: count($num),
+            $slist: collectList($s),
+            $sset: collectSet($s),
+            $count: count($num)
         )
-        eval($count.intValue() > 1)
+        eval($sset.size() > 1)
     then
         // ((max - min + 1) / min_slots_per_match) - count
+        System.out.println("@" + $sset.toArray().length + " " + $slist.toArray().length);
         System.out.println(drools.getWorkingMemory().toString() + " " + Arrays.toString($sset.toArray()) + " " + $t + " " + $min.intValue() + " " + $max.intValue() + " " + $count.intValue() +
           " " + ($count.intValue() < 2 ? 0 : Math.max(0, (($max.intValue() - $min.intValue() + 1) / 2 - $count.intValue()))));
         insertLogical(
 			new IntConstraintOccurrence("teamOverhead", ConstraintType.NEGATIVE_SOFT,
-			    $count.intValue() < 2 ? 0 :
-                Math.max(0, (($max.intValue() - $min.intValue() + 1) / 2 - $count.intValue())), $t, $sset.toArray())        
+			    $sset.size() < 2 ? 0 :
+                Math.max(0, (($max.intValue() - $min.intValue() + 1) / 2 - $sset.size())), $t, $sset.toArray())        
         );
 end
 

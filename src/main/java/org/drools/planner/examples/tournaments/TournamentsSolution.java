@@ -80,7 +80,7 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 		for (Slot sl : slotList) {
 			s.slotList.add(sl.clone());
 		}
-		/*s.setScore(getScore());*/
+		s.setScore(getScore());
 		return s;
 	}
 
