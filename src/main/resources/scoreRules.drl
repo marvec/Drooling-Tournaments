@@ -10,14 +10,9 @@ import org.drools.planner.examples.tournaments.model.TeamsMatch;
 import org.drools.planner.examples.tournaments.model.Team;
 import org.drools.planner.examples.tournaments.model.Slot;
 
+import java.util.Arrays;
+
 global HardAndSoftConstraintScoreCalculator scoreCalculator;
-
-/*declare Overhead
-    num: Integer
-end
-
-declare MinimumDistanceBroken
-end*/
 
 rule "Find out how many minimal distances between matches have been broken"
     when
@@ -45,33 +40,38 @@ rule "Find out how many slots share a single match"
         );
 end
 
-/*rule "Punish unused pause matches"
-	when
-		$p: PauseMatch()
-		not Slot($p == match)
+/*rule "Team has too big delay"
+    when
+    	$t: Team()
+    	$s1: Slot($num1: number, teams contains $t)
+    	$s2: Slot(this != $s1, $num2: number, teams contains $t)
+    	not Slot(this != $s1, this != $s2, $num1 < number, $num2 > number, teams contains $t) 
     then
-        insertLogical(
-			new IntConstraintOccurrence("unusedPauseMatch", ConstraintType.NEGATIVE_HARD,
-                2, $p)        
-        );
-end*/
-			
+    	insertLogical(
+    		new IntConstraintOccurrence("teamWaitTime", ConstraintType.NEGATIVE_SOFT,
+    			Math.abs($num1 - $num2) - 2, $t, $s1, $s2)
+    	);
+end*/ 
 
 rule "Get overhead per team"
     when
         $t: Team()
         accumulate(
-            Slot($num: number, teams contains $t),
+            $s: Slot($num: number, teams contains $t),
             $min: min($num),
             $max: max($num),
-            $count: count($num)
+            $sset: collectList($s),
+            $count: count($num),
         )
+        eval($count.intValue() > 1)
     then
-        // the "1" means that we tolerate overhead in range from 0 to 1.
+        // ((max - min + 1) / min_slots_per_match) - count
+        System.out.println(drools.getWorkingMemory().toString() + " " + Arrays.toString($sset.toArray()) + " " + $t + " " + $min.intValue() + " " + $max.intValue() + " " + $count.intValue() +
+          " " + ($count.intValue() < 2 ? 0 : Math.max(0, (($max.intValue() - $min.intValue() + 1) / 2 - $count.intValue()))));
         insertLogical(
 			new IntConstraintOccurrence("teamOverhead", ConstraintType.NEGATIVE_SOFT,
-                ($max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1)) *
-                ($max.intValue() - $min.intValue() - (($count.intValue() * 2) - 1)), $t)        
+			    $count.intValue() < 2 ? 0 :
+                Math.max(0, (($max.intValue() - $min.intValue() + 1) / 2 - $count.intValue())), $t, $sset.toArray())        
         );
 end
 
@@ -90,10 +90,9 @@ rule "Soft score is a sum of all the overheads"
 	salience -1
     when
         $total : Number () from accumulate(
-            IntConstraintOccurrence(constraintType == ConstraintType.NEGATIVE_SOFT, $weight: weight, $weight > 0),
+            IntConstraintOccurrence(constraintType == ConstraintType.NEGATIVE_SOFT, $weight: weight),
             sum($weight)
         )
     then
         scoreCalculator.setSoftConstraintsBroken($total.intValue());
 end
-

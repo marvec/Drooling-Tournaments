@@ -80,7 +80,7 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 		for (Slot sl : slotList) {
 			s.slotList.add(sl.clone());
 		}
-		s.setScore(getScore());
+		/*s.setScore(getScore());*/
 		return s;
 	}
 
@@ -88,6 +88,8 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 		List<Object> l = new ArrayList<Object>();
 		l.addAll(getTeams());
 		l.addAll(getMatchList());
+		l.addAll(getCourts());
+		l.addAll(getGroups());
 
 		return l;
 	}

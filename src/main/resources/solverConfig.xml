@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <solver>
-    <environmentMode>PRODUCTION</environmentMode>
+    <environmentMode>DEBUG</environmentMode>
     <solutionClass>org.drools.planner.examples.tournaments.TournamentsSolution</solutionClass>
     <planningEntityClass>org.drools.planner.examples.tournaments.model.Slot</planningEntityClass>
     <scoreDrl>/scoreRules.drl</scoreDrl>
@@ -18,18 +18,19 @@
           <scoreAttained>0hard/0soft</scoreAttained>
       </termination> 
       <acceptor>
-         <simulatedAnnealingStartingTemperature>1hard/0soft</simulatedAnnealingStartingTemperature>
+         <simulatedAnnealingStartingTemperature>2hard/10soft</simulatedAnnealingStartingTemperature>
+         <!-- completePropertyTabuSize>5</completePropertyTabuSize-->
       </acceptor>
       <forager>
          <minimalAcceptedSelection>4</minimalAcceptedSelection>
       </forager>    
       <selector>
-         <selector>
-             <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
-         </selector>
            <selector>
              <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
            </selector>
+         <selector>
+             <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
+         </selector>
       </selector>
     </localSearch>
     <localSearch>
@@ -39,15 +40,12 @@
 	        <scoreAttained>0hard/0soft</scoreAttained>
 	    </termination> 
 	    <acceptor>
-	       <simulatedAnnealingStartingTemperature>0hard/500soft</simulatedAnnealingStartingTemperature>
+	       <simulatedAnnealingStartingTemperature>0hard/10soft</simulatedAnnealingStartingTemperature>
 	    </acceptor>
 	    <forager>
 	       <minimalAcceptedSelection>4</minimalAcceptedSelection>
 	    </forager>    
 	    <selector>
-	       <!-- selector>
-	           <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
-	       </selector-->
            <selector>
 	           <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
 	         </selector>
@@ -60,15 +58,12 @@
             <scoreAttained>0hard/0soft</scoreAttained>
         </termination> 
         <acceptor>
-           <simulatedAnnealingStartingTemperature>0hard/1000soft</simulatedAnnealingStartingTemperature>
+           <simulatedAnnealingStartingTemperature>0hard/200soft</simulatedAnnealingStartingTemperature>
         </acceptor>
         <forager>
            <minimalAcceptedSelection>8</minimalAcceptedSelection>
         </forager>    
         <selector>
-           <!-- selector>
-               <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.FillSlotMoveFactory</moveFactoryClass>
-           </selector-->
            <selector>
                <moveFactoryClass>org.drools.planner.examples.tournaments.move.factory.SwitchSlotMoveFactory</moveFactoryClass>
            </selector>

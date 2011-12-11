@@ -23,7 +23,9 @@ public class SwitchSlotMoveFactory extends CachedMoveFactory {
         for (Slot s1 : sol.getSlotList()) {
             unvisited.remove(s1);
             for (Slot s2 : unvisited) {
-                moves.add(new SwitchSlotMove(s1, s2));
+            	if (s1.getNumber() != s2.getNumber()) {
+            		moves.add(new SwitchSlotMove(s1, s2));
+            	}
             }
         }
         return moves;

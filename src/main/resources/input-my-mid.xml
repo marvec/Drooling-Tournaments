@@ -8,6 +8,9 @@
   <court id="8" name="A"/>
   <court id="9" name="B"/>
   <court id="10" name="C"/>
+  <court id="1008" name="D"/>
+  <court id="1009" name="E"/>
+  <court id="1010" name="F"/>
   <team id="11" name="X0">
     <group reference="2"/>
   </team>

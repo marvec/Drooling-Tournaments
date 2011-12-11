@@ -1,9 +1,11 @@
 package org.drools.planner.examples.tournaments.move;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.drools.WorkingMemory;
+import org.drools.planner.core.localsearch.decider.acceptor.tabu.TabuPropertyEnabled;
 import org.drools.planner.core.move.Move;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Slot;
@@ -14,7 +16,7 @@ import org.drools.planner.examples.tournaments.model.Slot;
  * @author lpetrovi
  *
  */
-public class SwitchSlotMove implements Move {
+public class SwitchSlotMove implements Move, TabuPropertyEnabled {
 
     private final Set<Slot> slots = new HashSet<>(2);
 
@@ -64,7 +66,9 @@ public class SwitchSlotMove implements Move {
 
     @Override
     public Move createUndoMove(WorkingMemory arg0) {
-   		return this;
+    	/*Slot[] s = getSlots();
+   		return new SwitchSlotMove(s[1], s[0]);*/
+    	return this;
     }
 
     private Slot[] getSlots() {
@@ -72,10 +76,6 @@ public class SwitchSlotMove implements Move {
     }
 
     private void updateSlot(WorkingMemory wm, Slot s) {
-    	if (wm.getFactHandle(s) == null) {
-    		//wm.insert(s);
-    		System.out.println("UNKNOWN SLOT " + s);
-    	}
     	wm.update(wm.getFactHandle(s), s);
     }
 
@@ -103,5 +103,10 @@ public class SwitchSlotMove implements Move {
         }
         return true;
     }
+
+	@Override
+	public Collection<? extends Object> getTabuProperties() {
+		return slots;
+	}
 
 }

@@ -3,6 +3,7 @@ package org.drools.planner.examples.tournaments;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -36,7 +37,7 @@ public final class Tournaments {
 			XStream xs = new XStream(new DomDriver());
 			xs.processAnnotations(TournamentsSolution.class);
 			TournamentsSolution sol = Util.fromXStream(Tournaments.class
-					.getResourceAsStream("/input-my-mid.xml"));
+					.getResourceAsStream("/input-my.xml"));
 			return sol;
 
 		}
@@ -150,10 +151,15 @@ public final class Tournaments {
 				}
 
 				// compute differences
-				Slot[] slotArray = slots.toArray(new Slot[slots.size()]);
-				for (int i = 1; i < slotArray.length; i++) {
-					stat.addValue(Math.abs(slotArray[i - 1].getNumber()
-							- slotArray[i].getNumber()));
+				int[] slotArray = new int[slots.size()];
+				int i = 0;
+				for (Slot s: slots) {
+					slotArray[i++] = s.getNumber();
+				}
+				Arrays.sort(slotArray);
+				System.out.println(t.toString() + " " + Arrays.toString(slotArray));
+				for (i = 1; i < slotArray.length; i++) {
+					stat.addValue(Math.abs(slotArray[i - 1] - slotArray[i]));
 				}
 			}
 			System.out.println();
