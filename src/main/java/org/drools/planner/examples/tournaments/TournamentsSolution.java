@@ -88,8 +88,6 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 		List<Object> l = new ArrayList<Object>();
 		l.addAll(getTeams());
 		l.addAll(getMatchList());
-		l.addAll(getCourts());
-		l.addAll(getGroups());
 
 		return l;
 	}
