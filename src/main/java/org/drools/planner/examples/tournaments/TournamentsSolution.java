@@ -39,7 +39,7 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 	@XStreamOmitField
 	private HardAndSoftScore score;
 
-	private static final double MAX_SLOT_OVERFLOW_RATE = 0.04;
+	private static final double MAX_SLOT_OVERFLOW_RATE = 0;//0.04;
 
 	@PlanningEntityCollectionProperty
 	public List<Slot> getSlotList() {
@@ -88,6 +88,8 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 		List<Object> l = new ArrayList<Object>();
 		l.addAll(getTeams());
 		l.addAll(getMatchList());
+		l.addAll(getCourts());
+		l.addAll(getGroups());
 
 		return l;
 	}
@@ -138,7 +140,7 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 			for (int j = i + 1; j < teams.length; j++) {
 				Team teamA = teams[i];
 				Team teamB = teams[j];
-				if (teamA.getGroup() == teamB.getGroup()) {
+				if (teamA.getGroup().equals(teamB.getGroup())) {
 					List<Team> teamsInMatch = new LinkedList<>();
 					teamsInMatch.add(teamA);
 					teamsInMatch.add(teamB);

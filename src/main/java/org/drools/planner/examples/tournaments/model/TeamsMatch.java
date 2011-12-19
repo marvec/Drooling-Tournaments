@@ -62,7 +62,15 @@ public class TeamsMatch implements Match {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((teamsInMatch == null) ? 0 : teamsInMatch.hashCode());
+        
+        if (teamsInMatch == null) {
+        	return prime * result + 0;
+        }
+        
+        for (Team t: teamsInMatch) {
+        	result = prime * result + t.hashCode();
+        }
+        
         return result;
     }
 
@@ -82,9 +90,20 @@ public class TeamsMatch implements Match {
             if (other.teamsInMatch != null) {
                 return false;
             }
-        } else if (!teamsInMatch.equals(other.teamsInMatch)) {
-            return false;
+        } else if (other.teamsInMatch == null){
+        	return false;        	
         }
+        
+        if (teamsInMatch.size() != other.teamsInMatch.size()) {
+        	return false;
+        }
+        
+        for (Team t: teamsInMatch) {
+        	if (!other.teamsInMatch.contains(t)) {
+        		return false;
+        	}
+        }
+
         return true;
     }
 

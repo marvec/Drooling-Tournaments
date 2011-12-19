@@ -1,0 +1,35 @@
+RULE Debug contains operator Right
+CLASS org.drools.base.evaluators.SetEvaluatorsDefinition$ObjectContainsEvaluator
+METHOD evaluateCachedRight
+AT EXIT
+IF TRUE
+DO
+  debug("@R@ " + $col + " " + $value + " " + $col.contains($value) + " " + $!);
+ENDRULE
+
+RULE Debug contains operator Left
+CLASS org.drools.base.evaluators.SetEvaluatorsDefinition$ObjectContainsEvaluator
+METHOD evaluateCachedLeft
+AT EXIT
+IF TRUE
+DO
+  debug("@L@ " + $col + " " + $value + " " + $col.contains($value) + " " + $!);
+ENDRULE
+
+RULE Debug contains operator Eval
+CLASS org.drools.base.evaluators.SetEvaluatorsDefinition$ObjectContainsEvaluator
+METHOD evaluate
+AT EXIT
+IF TRUE
+DO
+  debug("@E@ " + $col + " " + $value + " " + $col.contains($value) + " " + $!);
+ENDRULE
+
+RULE Test rule
+CLASS org.drools.planner.examples.tournaments.Tournaments$Execution
+METHOD run
+AT ENTRY
+IF TRUE
+DO
+  debug("It works");
+ENDRULE

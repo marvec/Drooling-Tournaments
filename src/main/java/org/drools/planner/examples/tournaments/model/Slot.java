@@ -104,7 +104,8 @@ public class Slot {
     
     public Collection<Team> getTeams() {
     	if (match instanceof TeamsMatch) {
-    		return ((TeamsMatch) match).getTeams();
+    		Collection<Team> tm = ((TeamsMatch) match).getTeams();
+    		return tm;
     	} else {
     		return null;
     	}
