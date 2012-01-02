@@ -1,0 +1,68 @@
+Court A
+Court B
+Group [name=U]
+Group [name=X]
+Group [name=Y]
+Group [name=Z]
+Match [teamsInMatch=[Team U0, Team U1]]
+Match [teamsInMatch=[Team U0, Team U2]]
+Match [teamsInMatch=[Team U0, Team U3]]
+Match [teamsInMatch=[Team U1, Team U2]]
+Match [teamsInMatch=[Team U1, Team U3]]
+Match [teamsInMatch=[Team U2, Team U3]]
+Match [teamsInMatch=[Team X0, Team X1]]
+Match [teamsInMatch=[Team X0, Team X2]]
+Match [teamsInMatch=[Team X0, Team X3]]
+Match [teamsInMatch=[Team X1, Team X2]]
+Match [teamsInMatch=[Team X1, Team X3]]
+Match [teamsInMatch=[Team X2, Team X3]]
+Match [teamsInMatch=[Team Y0, Team Y1]]
+Match [teamsInMatch=[Team Y0, Team Y2]]
+Match [teamsInMatch=[Team Y0, Team Y3]]
+Match [teamsInMatch=[Team Y1, Team Y2]]
+Match [teamsInMatch=[Team Y1, Team Y3]]
+Match [teamsInMatch=[Team Y2, Team Y3]]
+Match [teamsInMatch=[Team Z0, Team Z1]]
+Match [teamsInMatch=[Team Z0, Team Z2]]
+Match [teamsInMatch=[Team Z0, Team Z3]]
+Match [teamsInMatch=[Team Z1, Team Z2]]
+Match [teamsInMatch=[Team Z1, Team Z3]]
+Match [teamsInMatch=[Team Z2, Team Z3]]
+minimumDistanceBroken/NEGATIVE_HARD:[Match [teamsInMatch=[Team X0, Team X1]], Slot [Court A, 0, match=Match [teamsInMatch=[Team X0, Team X1]]], Slot [Court A, 1, match=Match [teamsInMatch=[Team X0, Team X2]]]]=1
+minimumDistanceBroken/NEGATIVE_HARD:[Match [teamsInMatch=[Team X0, Team X2]], Slot [Court A, 1, match=Match [teamsInMatch=[Team X0, Team X2]]], Slot [Court A, 0, match=Match [teamsInMatch=[Team X0, Team X1]]]]=1
+singleMatchShared/NEGATIVE_HARD:[Match [teamsInMatch=[Team X0, Team X1]]]=0
+singleMatchShared/NEGATIVE_HARD:[Match [teamsInMatch=[Team X0, Team X2]]]=0
+Slot [Court A, 0, match=Match [teamsInMatch=[Team X0, Team X1]]]
+Slot [Court A, 1, match=Match [teamsInMatch=[Team X0, Team X2]]]
+teamOverhead/NEGATIVE_SOFT:[Team U0, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team U1, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team U2, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team U3, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team X0, [Slot [Court A, 1, match=Match [teamsInMatch=[Team X0, Team X2]]], Slot [Court A, 0, match=Match [teamsInMatch=[Team X0, Team X1]]]]]=0
+teamOverhead/NEGATIVE_SOFT:[Team X1, [Slot [Court A, 0, match=Match [teamsInMatch=[Team X0, Team X1]]]]]=0
+teamOverhead/NEGATIVE_SOFT:[Team X2, [Slot [Court A, 1, match=Match [teamsInMatch=[Team X0, Team X2]]]]]=0
+teamOverhead/NEGATIVE_SOFT:[Team X3, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team Y0, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team Y1, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team Y2, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team Y3, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team Z0, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team Z1, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team Z2, []]=0
+teamOverhead/NEGATIVE_SOFT:[Team Z3, []]=0
+Team U0
+Team U1
+Team U2
+Team U3
+Team X0
+Team X1
+Team X2
+Team X3
+Team Y0
+Team Y1
+Team Y2
+Team Y3
+Team Z0
+Team Z1
+Team Z2
+Team Z3

@@ -1,0 +1,18 @@
+RULE Debug fireAllRules
+CLASS ^org.drools.impl.StatefulKnowledgeSessionImpl
+METHOD fireAllRules
+AT EXIT
+IF TRUE
+DO
+  debug("@RETEOO@");
+ENDRULE
+
+RULE Debug fireAllRules 2
+HELPER org.drools.planner.examples.tournaments.helper.BytemanHelper
+CLASS ^org.drools.common.AbstractWorkingMemory
+METHOD fireAllRules
+AT EXIT
+IF TRUE
+DO
+  printWorkingMemory($0.getKnowledgeRuntime());
+ENDRULE

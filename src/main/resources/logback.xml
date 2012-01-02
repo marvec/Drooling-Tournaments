@@ -1,0 +1,16 @@
+<configuration>
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender"> 
+        <file>runtime.log</file> 
+        <encoder> 
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder> 
+    </appender> 
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <param name="QueueCapacity" value="5000"/>
+        <param name="IncludeCallerData" value="true"/>
+        <appender-ref ref="FILE"/>
+    </appender>
+    <root level="DEBUG">
+        <appender-ref ref="ASYNC" /> 
+    </root>
+</configuration>
