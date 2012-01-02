@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
 import org.drools.planner.config.XmlSolverConfigurer;
 import org.drools.planner.core.Solver;
-import org.drools.planner.core.score.HardAndSoftScore;
+import org.drools.planner.core.score.buildin.hardandsoft.HardAndSoftScore;
 import org.drools.planner.examples.tournaments.model.Court;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.PauseMatch;
@@ -60,8 +60,7 @@ public final class Tournaments {
 				TournamentsSolution bestSolution = (TournamentsSolution) solver
 						.getBestSolution();
 				if (bestSolution != null) {
-					HardAndSoftScore score = (HardAndSoftScore) bestSolution
-							.getScore();
+					HardAndSoftScore score = (HardAndSoftScore) bestSolution.getScore();
 					System.out.printf("Score: %d hard/%d soft%n",
 							score.getHardScore(), score.getSoftScore());
 				}

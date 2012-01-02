@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.drools.planner.api.domain.solution.PlanningEntityCollectionProperty;
-import org.drools.planner.core.score.HardAndSoftScore;
+import org.drools.planner.core.score.buildin.hardandsoft.HardAndSoftScore;
 import org.drools.planner.core.solution.Solution;
 import org.drools.planner.examples.tournaments.model.Court;
 import org.drools.planner.examples.tournaments.model.Group;

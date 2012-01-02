@@ -19,7 +19,7 @@ public class TeamsMatch implements Match {
     }
 
     public TeamsMatch(List<Team> teamsInMatch) {
-        this.teamsInMatch = teamsInMatch;
+        this.teamsInMatch = Collections.unmodifiableList(teamsInMatch);
     }
 
 /*    public Match clone() {
@@ -35,7 +35,7 @@ public class TeamsMatch implements Match {
     }*/
     
     public Collection<Team> getTeams() {
-        return Collections.unmodifiableList(teamsInMatch);
+        return Collections.unmodifiableCollection(teamsInMatch);
     }
 
     @Override

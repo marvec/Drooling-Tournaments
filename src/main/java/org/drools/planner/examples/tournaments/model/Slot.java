@@ -1,6 +1,7 @@
 package org.drools.planner.examples.tournaments.model;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import org.drools.planner.api.domain.entity.PlanningEntity;
 import org.drools.planner.api.domain.variable.PlanningVariable;
@@ -104,7 +105,7 @@ public class Slot {
     
     public Collection<Team> getTeams() {
     	if (match instanceof TeamsMatch) {
-    		Collection<Team> tm = ((TeamsMatch) match).getTeams();
+    		Collection<Team> tm = Collections.unmodifiableCollection(((TeamsMatch) match).getTeams());
     		return tm;
     	} else {
     		return null;

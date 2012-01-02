@@ -6,20 +6,24 @@
   <name>Drools Planner: Tournaments</name>
   <description>Solving the tournament scheduling using Drools Planner</description>
   <properties>
-    <drools.version>5.3.1.Final</drools.version>
+    <!--drools.version>5.3.1.Final</drools.version-->
     <maven.exec.plugin.version>1.2</maven.exec.plugin.version>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>droolsjbpm-parent</artifactId>
+        <version>5.4.0.Beta1</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.drools.planner</groupId>
-      <artifactId>drools-planner</artifactId>
-      <version>${drools.version}</version>
-      <type>pom</type>
-    </dependency>
-    <dependency>
-      <groupId>org.drools.planner</groupId>
       <artifactId>drools-planner-core</artifactId>
-      <version>${drools.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
@@ -32,18 +36,15 @@
       <artifactId>jfreechart</artifactId>
       <version>1.0.13</version>
     </dependency>
+    <dependency>
+      <groupId>org.jboss</groupId>
+      <artifactId>byteman</artifactId>
+      <version>1.6.0</version>
+    </dependency>
     <!--  logging -->
     <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.2.16</version>
-        <scope>runtime</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-        <version>1.6.0</version>
-        <scope>runtime</scope>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
     </dependency>
         <dependency>
             <groupId>org.testng</groupId>
