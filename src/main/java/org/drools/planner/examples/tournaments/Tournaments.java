@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
-import org.drools.planner.config.XmlSolverConfigurer;
+import org.drools.planner.config.XmlSolverFactory;
 import org.drools.planner.core.Solver;
 import org.drools.planner.core.score.buildin.hardandsoft.HardAndSoftScore;
 import org.drools.planner.examples.tournaments.model.Court;
@@ -37,14 +37,14 @@ public final class Tournaments {
 			XStream xs = new XStream(new DomDriver());
 			xs.processAnnotations(TournamentsSolution.class);
 			TournamentsSolution sol = Util.fromXStream(Tournaments.class
-					.getResourceAsStream("/input-my.xml"));
+					.getResourceAsStream("/input-my-mid.xml"));
 			return sol;
 
 		}
 
 		@Override
 		public void run() {
-			final XmlSolverConfigurer configurer = new XmlSolverConfigurer();
+			final XmlSolverFactory configurer = new XmlSolverFactory();
 			configurer.configure(Tournaments.class
 					.getResourceAsStream("/solverConfig.xml"));
 			solver = configurer.buildSolver();

@@ -1,3 +1,6 @@
 /data
 /runtime.log
 /target
+/byteman
+/jprofiler
+planning_fce.ods

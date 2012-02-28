@@ -6,7 +6,6 @@
   <name>Drools Planner: Tournaments</name>
   <description>Solving the tournament scheduling using Drools Planner</description>
   <properties>
-    <!--drools.version>5.3.1.Final</drools.version-->
     <maven.exec.plugin.version>1.2</maven.exec.plugin.version>
   </properties>
   <dependencyManagement>
@@ -14,7 +13,7 @@
       <dependency>
         <groupId>org.drools</groupId>
         <artifactId>droolsjbpm-parent</artifactId>
-        <version>5.4.0.Beta1</version>
+        <version>5.4.0.Beta2</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>
@@ -128,25 +127,6 @@
           </execution>
         </executions>
       </plugin>
-      <!--plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <transformers>
-                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>org.drools.planner.examples.tournaments.Tournaments</mainClass>
-                </transformer>
-              </transformers>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin-->
     </plugins>
   </build>
 </project>

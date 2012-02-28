@@ -33,7 +33,8 @@ public class Group {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        return this == obj;
+        /*if (this == obj) {
             return true;
         }
         if (obj == null) {
@@ -43,14 +44,17 @@ public class Group {
             return false;
         }
         Group other = (Group) obj;
+        if (this.name == other.name) {
+            return true;
+        }
         if (name == null) {
             if (other.name != null) {
                 return false;
             }
         } else if (!name.equals(other.name)) {
             return false;
-        }
-        return true;
+        } 
+        return true;*/
     }
 
 }

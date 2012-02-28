@@ -15,7 +15,7 @@ import java.util.Collection;
 
 global HardAndSoftScoreCalculator scoreCalculator;
 
-rule "Find out how many minimal distances between matches have been broken"
+/*rule "Find out how many minimal distances between matches have been broken"
     when
 		$s1: Slot($m1: match)
 		$s2: Slot(this != $s1, this.isMinimalDistanceBroken($s1), $m2: match)
@@ -24,6 +24,18 @@ rule "Find out how many minimal distances between matches have been broken"
         insertLogical(
 			new IntConstraintOccurrence("minimumDistanceBroken", ConstraintType.NEGATIVE_HARD,
                 1, $m1, $s1, $s2)        
+        );
+end*/
+
+rule "Find out how many minimal distances between matches have been broken"
+    when
+        $t: Team()
+		$s1: Slot(this.plays($t))
+		$s2: Slot(this != $s1, this.isMinimalDistanceBroken($s1), this.plays($t))
+    then
+        insertLogical(
+			new IntConstraintOccurrence("minimumDistanceBroken", ConstraintType.NEGATIVE_HARD,
+                1, $t, $s1, $s2)        
         );
 end
 
@@ -41,7 +53,7 @@ rule "Find out how many slots share a single match"
         );
 end
 
-rule "Team has too big delay"
+/*rule "Team has too big delay"
     when
     	$t: Team()
     	$s1: Slot($num1: number, teams contains $t)
@@ -52,34 +64,42 @@ rule "Team has too big delay"
     		new IntConstraintOccurrence("teamWaitTime", ConstraintType.NEGATIVE_SOFT,
     			Math.max(0, Math.abs($num1 - $num2) - 2), $t, $s1, $s2)
     	);
-end 
+end*/
 
-/*rule "Get overhead per team"
+/*rule "Time slot shared"
+    when
+        $t: Team()
+        $s1: Slot(this.getTeams() contains $t)
+        $s2: Slot(this != $s1, this.getNumber() == $s1.getNumber(), this.getTeams() contains $t)
+    then
+        insertLogical(
+			new IntConstraintOccurrence("timeSlotShared", ConstraintType.NEGATIVE_HARD,
+                1, $t, $s1, $s2)        
+        );
+end*/
+
+rule "Get overhead per team"
     when
         $t: Team()
         accumulate(
-            $s: Slot($num: number, match != null, $ts: teams, teams contains $t),
-            $min: min($num),
-            $max: max($num),
-            $slist: collectList($s),
-            $sset: collectSet($s),
-            $tslist: collectList($ts),
+            Slot($s: this, this.plays($t)),
+            $min: min($s.getNumber()),
+            $max: max($s.getNumber()),
             $count: count($s)
         )
     then
-    	System.out.println($t.toString() + " " + $count.intValue() + " " + Arrays.toString($tslist.toArray()) + " " + $tslist.contains($t));   	
         // ((max - min + 1) / min_slots_per_match) - count
-        System.out.println("@" + $sset.toArray().length + " " + $slist.toArray().length);
-        System.out.println(drools.getWorkingMemory().toString() + " " + Arrays.toString($slist.toArray()) + " " + $t + " " + $min.intValue() + " " + $max.intValue() + " " + $count.intValue() +
-          " " + ($count.intValue() < 2 ? 0 : Math.max(0, (($max.intValue() - $min.intValue() + 1) / 2 - $count.intValue()))));
         insertLogical(
-			new IntConstraintOccurrence("teamOverhead", ConstraintType.NEGATIVE_SOFT,
-			    $sset.size() < 2 ? 0 :
-                Math.max(0, (($max.intValue() - $min.intValue() + 1) / 2 - $sset.size())), $t, $slist)        
+            new IntConstraintOccurrence("teamOverhead", ConstraintType.NEGATIVE_SOFT,
+                $count.intValue() < 2 ? 0 : 
+                    Math.max(0, (($max.intValue() - $min.intValue() + 1) / 2 - $count.intValue()) * 2 + 1), $t)
         );
-        if ($slist.size() != $sset.size()) insertLogical(new IntConstraintOccurrence("brokenRule", 123, $sset.size() - $slist.size()));
-        
-end*/
+        /*insertLogical(
+            new IntConstraintOccurrence("minimumDistanceBroken", ConstraintType.NEGATIVE_HARD,
+                $count.intValue() < 2 ? 0 : 
+                    -Math.min(0, (($max.intValue() - $min.intValue() + 1) / 2 - $count.intValue()) * 2 + 1), $t)
+        );*/
+end
 
 rule "Hard score means how many teams have matches directly adjacent"
 	salience -1

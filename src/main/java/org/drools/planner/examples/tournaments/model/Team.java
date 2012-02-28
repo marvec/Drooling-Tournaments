@@ -1,11 +1,10 @@
 package org.drools.planner.examples.tournaments.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-
 @XStreamAlias(value = "team")
-public class Team {
+public class Team implements Comparable<Team> {
 
     @XStreamAsAttribute
     private String name;
@@ -23,7 +22,8 @@ public class Team {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        return this == obj;
+        /*if (this == obj) {
             return true;
         }
         if (obj == null) {
@@ -37,17 +37,23 @@ public class Team {
             if (other.group != null) {
                 return false;
             }
+        } else if (this.name == other.name) {
+            return this.group.equals(other.group);
         } else if (!group.equals(other.group)) {
             return false;
-        }
+        } 
         if (name == null) {
             if (other.name != null) {
                 return false;
             }
         } else if (!name.equals(other.name)) {
             return false;
-        }
-        return true;
+        } 
+        return true;*/
+    }
+
+    public int compareTo(Team t) {
+        return (name + "/" + group.getName()).compareTo(t.name + "/" + t.group.getName());
     }
 
     public String getName() {

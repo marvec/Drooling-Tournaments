@@ -1,7 +1,6 @@
 package org.drools.planner.examples.tournaments.model;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import org.drools.planner.api.domain.entity.PlanningEntity;
 import org.drools.planner.api.domain.variable.PlanningVariable;
@@ -20,7 +19,7 @@ public class Slot {
     private int number;
     @XStreamAsAttribute
     private Match match = null;
-
+    
     public Slot() { }
 
     public Slot(Court c, int number) {
@@ -42,9 +41,10 @@ public class Slot {
     }
 
     public boolean isMinimalDistanceBroken(Slot s) {
-        return (Math.abs(number - s.number) < 2);
+        int diff = number - s.number;
+        return diff < 2 && diff > -2;
     }
-
+ 
     @Override
     public String toString() {
         return "Slot [" + court + ", " + number + ", match=" + match + "]";
@@ -84,6 +84,27 @@ public class Slot {
        
         return true;
     }
+    
+    public boolean solutionEquals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Slot)) {
+            return false;
+        }
+        Slot other = (Slot) obj;
+        if (court == null && other.court != null) {
+            return false;
+        }
+        if (number != other.number || !court.equals(other.court)) {
+            return false;
+        }
+
+        return true;
+    }
 
     public Court getCourt() {
         return court;
@@ -105,11 +126,22 @@ public class Slot {
     
     public Collection<Team> getTeams() {
     	if (match instanceof TeamsMatch) {
-    		Collection<Team> tm = Collections.unmodifiableCollection(((TeamsMatch) match).getTeams());
-    		return tm;
+    		return ((TeamsMatch) match).getTeams();
     	} else {
     		return null;
     	}
     }
 
+    public boolean plays(Team t) {
+        Collection<Team> teams = getTeams();
+        if (teams == null) return false;
+            
+        Team[] tm = teams.toArray(new Team[teams.size()]);
+        for (int i = 0; i < tm.length; i++) {
+            if (t == tm[i]) return true;
+        }
+        
+        return false;
+    }
+    
 }

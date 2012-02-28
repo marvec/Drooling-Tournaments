@@ -13,30 +13,31 @@ public class TeamsMatch implements Match {
 
     @XStreamImplicit(itemFieldName = "team")
     private final List<Team> teamsInMatch;
-    
+
     public TeamsMatch() {
-        this.teamsInMatch = new LinkedList<Team>();
+        this.teamsInMatch = Collections.unmodifiableList(new LinkedList<Team>());
     }
 
     public TeamsMatch(List<Team> teamsInMatch) {
+        Collections.sort(teamsInMatch);
         this.teamsInMatch = Collections.unmodifiableList(teamsInMatch);
     }
 
-/*    public Match clone() {
-        Match m = new Match();
-        m.teamsInMatch.addAll(teamsInMatch);
-        return m;
-    }*/
-    
-/*    @PlanningVariable
-    @ValueRangeFromSolutionProperty(propertyName = "slotList")
-    public Slot getSlot() {
-        return slot;
-    }*/
-    
     public Collection<Team> getTeams() {
-        return Collections.unmodifiableCollection(teamsInMatch);
+        return teamsInMatch;
     }
+
+    /*
+     * public Match clone() { Match m = new Match();
+     * m.teamsInMatch.addAll(teamsInMatch); return m; }
+     */
+
+    /*
+     * @PlanningVariable
+     * 
+     * @ValueRangeFromSolutionProperty(propertyName = "slotList") public Slot
+     * getSlot() { return slot; }
+     */
 
     @Override
     public String toString() {
@@ -48,13 +49,14 @@ public class TeamsMatch implements Match {
     }
 
     public boolean areTeamsShared(Match m) {
-    	if (m instanceof TeamsMatch) {
-	        for (Team t1: this.teamsInMatch) {
-	            for (Team t2: ((TeamsMatch) m).teamsInMatch) {
-	                if (t1 == t2) return true;
-	            }
-	        }
-    	}
+        if (m instanceof TeamsMatch) {
+            for (Team t1 : this.teamsInMatch) {
+                for (Team t2 : ((TeamsMatch) m).teamsInMatch) {
+                    if (t1 == t2)
+                        return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -62,21 +64,22 @@ public class TeamsMatch implements Match {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        
+
         if (teamsInMatch == null) {
-        	return prime * result + 0;
+            return prime * result + 0;
         }
-        
-        for (Team t: teamsInMatch) {
-        	result = prime * result + t.hashCode();
+
+        for (Team t : teamsInMatch) {
+            result = prime * result + t.hashCode();
         }
-        
+
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        return this == obj;
+        /*if (this == obj) {
             return true;
         }
         if (obj == null) {
@@ -90,21 +93,21 @@ public class TeamsMatch implements Match {
             if (other.teamsInMatch != null) {
                 return false;
             }
-        } else if (other.teamsInMatch == null){
-        	return false;        	
+        } else if (other.teamsInMatch == null) {
+            return false;
+        } else if (teamsInMatch.size() != other.teamsInMatch.size()) {
+            return false;
         }
         
-        if (teamsInMatch.size() != other.teamsInMatch.size()) {
-        	return false;
+        Team[] t1 = teamsInMatch.toArray(new Team[teamsInMatch.size()]);
+        Team[] t2 = other.teamsInMatch.toArray(new Team[t1.length]);
+        for (int i = 0; i < t1.length; i++) {
+            if (t1[i] != t2[i]) return false;
         }
         
-        for (Team t: teamsInMatch) {
-        	if (!other.teamsInMatch.contains(t)) {
-        		return false;
-        	}
-        }
-
         return true;
+        // the lists are sorted - equals compares corresponding pairs
+        //return teamsInMatch.equals(other.teamsInMatch);*/
     }
 
 }

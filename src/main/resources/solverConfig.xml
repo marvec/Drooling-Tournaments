@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <solver>
-    <environmentMode>DEBUG</environmentMode>
+    <environmentMode>PRODUCTION</environmentMode>
     <solutionClass>org.drools.planner.examples.tournaments.TournamentsSolution</solutionClass>
     <planningEntityClass>org.drools.planner.examples.tournaments.model.Slot</planningEntityClass>
     <scoreDrl>/scoreRules.drl</scoreDrl>

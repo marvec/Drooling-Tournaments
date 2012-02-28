@@ -39,7 +39,7 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 	@XStreamOmitField
 	private HardAndSoftScore score;
 
-	private static final double MAX_SLOT_OVERFLOW_RATE = 0;//0.04;
+	private static final double MAX_SLOT_OVERFLOW_RATE = 0.04;
 
 	@PlanningEntityCollectionProperty
 	public List<Slot> getSlotList() {
