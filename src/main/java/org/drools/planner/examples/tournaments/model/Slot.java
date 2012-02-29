@@ -78,7 +78,7 @@ public class Slot {
         if (match == null && other.match != null) {
         	return false;
         }
-        if (!court.equals(other.court) || number != other.number || !match.equals(other.match)) {
+        if (number != other.number || court != other.court || match != other.match) {
             return false;
         }
        

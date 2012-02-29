@@ -15,7 +15,7 @@ import java.util.Collection;
 
 global HardAndSoftScoreCalculator scoreCalculator;
 
-/*rule "Find out how many minimal distances between matches have been broken"
+rule "Find out how many minimal distances between matches have been broken"
     when
 		$s1: Slot($m1: match)
 		$s2: Slot(this != $s1, this.isMinimalDistanceBroken($s1), $m2: match)
@@ -25,9 +25,9 @@ global HardAndSoftScoreCalculator scoreCalculator;
 			new IntConstraintOccurrence("minimumDistanceBroken", ConstraintType.NEGATIVE_HARD,
                 1, $m1, $s1, $s2)        
         );
-end*/
+end
 
-rule "Find out how many minimal distances between matches have been broken"
+/*rule "Find out how many minimal distances between matches have been broken"
     when
         $t: Team()
 		$s1: Slot(this.plays($t))
@@ -37,7 +37,7 @@ rule "Find out how many minimal distances between matches have been broken"
 			new IntConstraintOccurrence("minimumDistanceBroken", ConstraintType.NEGATIVE_HARD,
                 1, $t, $s1, $s2)        
         );
-end
+end*/
 
 rule "Find out how many slots share a single match"
     when

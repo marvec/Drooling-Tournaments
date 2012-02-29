@@ -35,11 +35,6 @@
       <artifactId>jfreechart</artifactId>
       <version>1.0.13</version>
     </dependency>
-    <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>byteman</artifactId>
-      <version>1.6.0</version>
-    </dependency>
     <!--  logging -->
     <dependency>
         <groupId>ch.qos.logback</groupId>

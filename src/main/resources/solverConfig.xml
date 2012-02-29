@@ -36,14 +36,14 @@
     <localSearch>
 	    <termination>
 	        <terminationCompositionStyle>OR</terminationCompositionStyle>
-	        <maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+	        <maximumUnimprovedStepCount>50</maximumUnimprovedStepCount>
 	        <scoreAttained>0hard/0soft</scoreAttained>
 	    </termination> 
 	    <acceptor>
-	       <simulatedAnnealingStartingTemperature>0hard/10soft</simulatedAnnealingStartingTemperature>
+	       <simulatedAnnealingStartingTemperature>2hard/10soft</simulatedAnnealingStartingTemperature>
 	    </acceptor>
 	    <forager>
-	       <minimalAcceptedSelection>4</minimalAcceptedSelection>
+	       <minimalAcceptedSelection>16</minimalAcceptedSelection>
 	    </forager>    
 	    <selector>
            <selector>
@@ -54,7 +54,7 @@
     <localSearch>
         <termination>
             <terminationCompositionStyle>OR</terminationCompositionStyle>
-            <maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+            <maximumUnimprovedStepCount>50</maximumUnimprovedStepCount>
             <scoreAttained>0hard/0soft</scoreAttained>
         </termination> 
         <acceptor>

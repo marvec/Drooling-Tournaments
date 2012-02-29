@@ -2,6 +2,7 @@ package org.drools.planner.examples.tournaments;
 
 import java.security.acl.Group;
 
+import org.drools.planner.benchmark.api.PlannerBenchmark;
 import org.drools.planner.benchmark.config.XmlPlannerBenchmarkFactory;
 import org.drools.planner.examples.tournaments.model.Court;
 import org.drools.planner.examples.tournaments.model.Team;
@@ -20,8 +21,8 @@ public final class Benchmark {
         benchmarker.addXstreamAnnotations(Group.class);
         benchmarker.addXstreamAnnotations(Team.class);
         benchmarker.configure("/benchmarkConfig.xml");
-        benchmarker.buildPlannerBenchmark();
-    }
-    
+        PlannerBenchmark benchmark = benchmarker.buildPlannerBenchmark();
+        benchmark.benchmark();
+    } 
 
 }
