@@ -72,12 +72,6 @@ public class Slot {
             return false;
         }
         Slot other = (Slot) obj;
-        if (court == null && other.court != null) {
-            return false;
-        }
-        if (match == null && other.match != null) {
-        	return false;
-        }
         if (number != other.number || court != other.court || match != other.match) {
             return false;
         }
@@ -85,27 +79,6 @@ public class Slot {
         return true;
     }
     
-    public boolean solutionEquals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof Slot)) {
-            return false;
-        }
-        Slot other = (Slot) obj;
-        if (court == null && other.court != null) {
-            return false;
-        }
-        if (number != other.number || !court.equals(other.court)) {
-            return false;
-        }
-
-        return true;
-    }
-
     public Court getCourt() {
         return court;
     }
