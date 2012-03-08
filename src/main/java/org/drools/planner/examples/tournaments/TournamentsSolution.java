@@ -9,6 +9,7 @@ import java.util.List;
 import org.drools.planner.api.domain.solution.PlanningEntityCollectionProperty;
 import org.drools.planner.core.score.buildin.hardandsoft.HardAndSoftScore;
 import org.drools.planner.core.solution.Solution;
+import org.drools.planner.examples.tournaments.model.Configuration;
 import org.drools.planner.examples.tournaments.model.Court;
 import org.drools.planner.examples.tournaments.model.Group;
 import org.drools.planner.examples.tournaments.model.Match;
@@ -18,6 +19,7 @@ import org.drools.planner.examples.tournaments.model.Team;
 import org.drools.planner.examples.tournaments.model.TeamsMatch;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -32,9 +34,9 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 	List<Team> teams = new LinkedList<>();
 	@XStreamImplicit(itemFieldName = "match")
 	private List<Match> matchList = new LinkedList<>();
-
+    @XStreamAsAttribute
+    private Configuration configuration = new Configuration();
 	@XStreamImplicit(itemFieldName = "slot")
-	// @XStreamOmitField
 	private List<Slot> slotList = new LinkedList<>();
 	@XStreamOmitField
 	private HardAndSoftScore score;
@@ -90,6 +92,7 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 		l.addAll(getMatchList());
 		l.addAll(getCourts());
 		l.addAll(getGroups());
+		l.add(getConfiguration());
 
 		return l;
 	}
@@ -220,5 +223,9 @@ public class TournamentsSolution implements Solution<HardAndSoftScore> {
 		}
 		return true;
 	}
+
+        public Configuration getConfiguration() {
+                return configuration;
+        }
 
 }

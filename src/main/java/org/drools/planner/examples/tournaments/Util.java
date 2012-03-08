@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.drools.planner.examples.tournaments.model.Court;
+import org.drools.planner.examples.tournaments.model.Configuration;
 import org.drools.planner.examples.tournaments.model.Group;
 import org.drools.planner.examples.tournaments.model.TeamsMatch;
 import org.drools.planner.examples.tournaments.model.Slot;
@@ -34,6 +35,7 @@ public class Util {
         xs.setMarshallingStrategy(new ReferenceByIdMarshallingStrategy());
         xs.processAnnotations(TournamentsSolution.class);
         xs.processAnnotations(Court.class);
+        xs.processAnnotations(Configuration.class);
         xs.processAnnotations(Group.class);
         xs.processAnnotations(Team.class);
         xs.processAnnotations(Slot.class);
