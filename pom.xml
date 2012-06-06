@@ -13,7 +13,7 @@
       <dependency>
         <groupId>org.drools</groupId>
         <artifactId>droolsjbpm-parent</artifactId>
-        <version>5.4.0.Beta2</version>
+        <version>5.4.0.Final</version>
         <scope>import</scope>
         <type>pom</type>
       </dependency>

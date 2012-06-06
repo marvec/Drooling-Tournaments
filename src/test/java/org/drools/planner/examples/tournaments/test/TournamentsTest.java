@@ -1,42 +1,31 @@
 package org.drools.planner.examples.tournaments.test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
-import org.drools.base.RuleNameEqualsAgendaFilter;
 import org.drools.builder.KnowledgeBuilder;
 import org.drools.builder.KnowledgeBuilderError;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
-import org.drools.event.rule.AfterActivationFiredEvent;
 import org.drools.event.rule.AgendaEventListener;
-import org.drools.event.rule.ObjectInsertedEvent;
 import org.drools.event.rule.WorkingMemoryEventListener;
 import org.drools.io.ResourceFactory;
+import org.drools.planner.core.score.buildin.hardandsoft.HardAndSoftScoreHolder;
+import org.drools.planner.examples.tournaments.model.Court;
+import org.drools.planner.examples.tournaments.model.Group;
+import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Slot;
+import org.drools.planner.examples.tournaments.model.Team;
+import org.drools.planner.examples.tournaments.model.TeamsMatch;
 import org.drools.runtime.StatefulKnowledgeSession;
 import org.drools.runtime.rule.AgendaFilter;
-import org.drools.FactHandle;
-import org.drools.planner.core.score.buildin.hardandsoft.HardAndSoftScoreCalculator;
-import org.mockito.ArgumentCaptor;
-import org.mvel2.MVEL;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import org.drools.planner.examples.tournaments.model.Court;
-import org.drools.planner.examples.tournaments.model.Match;
-import org.drools.planner.examples.tournaments.model.Group;
-import org.drools.planner.examples.tournaments.model.Slot;
-import org.drools.planner.examples.tournaments.model.Team;
-import org.drools.planner.examples.tournaments.model.TeamsMatch;
 
 @Test
 public class TournamentsTest {
@@ -144,8 +133,8 @@ public class TournamentsTest {
         s.setMatch(mX0X1);
         addFact(s);
 
-        kSession.setGlobal("scoreCalculator", new HardAndSoftScoreCalculator());
-        HardAndSoftScoreCalculator score = (HardAndSoftScoreCalculator) kSession.getGlobal("scoreCalculator");
+        kSession.setGlobal("scoreHolder", new HardAndSoftScoreHolder());
+        HardAndSoftScoreHolder score = (HardAndSoftScoreHolder) kSession.getGlobal("scoreHolder");
 
         System.out.println("= Run no. 1 ============================================");
         fireAllRules();

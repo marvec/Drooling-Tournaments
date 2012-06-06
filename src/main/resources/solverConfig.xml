@@ -3,10 +3,10 @@
 	<environmentMode>PRODUCTION</environmentMode>
 	<solutionClass>org.drools.planner.examples.tournaments.TournamentsSolution</solutionClass>
 	<planningEntityClass>org.drools.planner.examples.tournaments.model.Slot</planningEntityClass>
-	<scoreDrl>/scoreRules.drl</scoreDrl>
-	<scoreDefinition>
+	<scoreDirectorFactory>
 		<scoreDefinitionType>HARD_AND_SOFT</scoreDefinitionType>
-	</scoreDefinition>
+		<scoreDrl>/scoreRules.drl</scoreDrl>
+	</scoreDirectorFactory>
 	<constructionHeuristic>
 		<constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
 		<!-- constructionHeuristicPickEarlyType>FIRST_LAST_STEP_SCORE_EQUAL_OR_IMPROVING</constructionHeuristicPickEarlyType -->

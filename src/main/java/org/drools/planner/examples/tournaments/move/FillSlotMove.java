@@ -3,12 +3,10 @@ package org.drools.planner.examples.tournaments.move;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.drools.WorkingMemory;
-import org.drools.planner.core.localsearch.decider.acceptor.tabu.TabuPropertyEnabled;
 import org.drools.planner.core.move.Move;
+import org.drools.planner.core.score.director.ScoreDirector;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Slot;
-import org.drools.runtime.rule.FactHandle;
 
 /**
  * The purpose of this move is to fill empty spaces in the roster.
@@ -16,7 +14,7 @@ import org.drools.runtime.rule.FactHandle;
  * @author lpetrovi,mvecera
  * 
  */
-public class FillSlotMove implements Move, TabuPropertyEnabled {
+public class FillSlotMove implements Move {
 
 	private final Match newMatch;
 	private final Match originalMatch;
@@ -79,25 +77,30 @@ public class FillSlotMove implements Move, TabuPropertyEnabled {
 	}
 
 	@Override
-	public Move createUndoMove(WorkingMemory arg0) {
+	public Move createUndoMove(ScoreDirector arg0) {
 		return new FillSlotMove(originalMatch, slot);
 	}
 
 	@Override
-	public void doMove(WorkingMemory arg0) {
+	public void doMove(ScoreDirector arg0) {
+		arg0.beforeVariableChanged(slot, "match");
 		slot.setMatch(newMatch);
-		FactHandle fh1 = arg0.getFactHandle(slot);
-		arg0.update(fh1, slot);
+		arg0.afterVariableChanged(slot, "match");
 	}
 
 	@Override
-	public boolean isMoveDoable(WorkingMemory arg0) {
+	public boolean isMoveDoable(ScoreDirector arg0) {
 		return slot.getMatch() == null || !slot.getMatch().equals(newMatch);
 	}
 
 	@Override
-	public Collection<? extends Object> getTabuProperties() {
-		return Collections.singleton(slot);
+	public Collection<? extends Object> getPlanningEntities() {
+		return Collections.singletonList(slot);
+	}
+
+	@Override
+	public Collection<? extends Object> getPlanningValues() {
+		return Collections.singletonList(newMatch);
 	}
 
 }

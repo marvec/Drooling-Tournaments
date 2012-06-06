@@ -1,22 +1,23 @@
 package org.drools.planner.examples.tournaments.move;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import org.drools.WorkingMemory;
-import org.drools.planner.core.localsearch.decider.acceptor.tabu.TabuPropertyEnabled;
 import org.drools.planner.core.move.Move;
+import org.drools.planner.core.score.director.ScoreDirector;
 import org.drools.planner.examples.tournaments.model.Match;
 import org.drools.planner.examples.tournaments.model.Slot;
 
 /**
  * The purpose of this move is to find better places for matches in the roster
  * by switching two of them.
- * @author lpetrovi
+ * @author lpetrovi, mvecera
  *
  */
-public class SwitchSlotMove implements Move, TabuPropertyEnabled {
+public class SwitchSlotMove implements Move {
 
     private final Set<Slot> slots = new HashSet<>(2);
 
@@ -65,9 +66,7 @@ public class SwitchSlotMove implements Move, TabuPropertyEnabled {
     }
 
     @Override
-    public Move createUndoMove(WorkingMemory arg0) {
-    	/*Slot[] s = getSlots();
-   		return new SwitchSlotMove(s[1], s[0]);*/
+    public Move createUndoMove(ScoreDirector arg0) {
     	return this;
     }
 
@@ -75,22 +74,18 @@ public class SwitchSlotMove implements Move, TabuPropertyEnabled {
         return slots.toArray(new Slot[slots.size()]);
     }
 
-    private void updateSlot(WorkingMemory wm, Slot s) {
-    	wm.update(wm.getFactHandle(s), s);
-    }
-
     @Override
-    public void doMove(WorkingMemory arg0) {
+    public void doMove(ScoreDirector arg0) {
         Slot[] s = getSlots();
+        for (Slot sl: slots) arg0.beforeVariableChanged(sl, "match");
         Match m = s[0].getMatch();
         s[0].setMatch(s[1].getMatch());
         s[1].setMatch(m);
-        updateSlot(arg0, s[0]);
-        updateSlot(arg0, s[1]);
+        for (Slot sl: slots) arg0.afterVariableChanged(sl, "match");
     }
 
     @Override
-    public boolean isMoveDoable(WorkingMemory arg0) {
+    public boolean isMoveDoable(ScoreDirector arg0) {
         Slot[] s = getSlots();
         Slot s1 = s[0];
         Slot s2 = s[1];
@@ -105,8 +100,15 @@ public class SwitchSlotMove implements Move, TabuPropertyEnabled {
     }
 
 	@Override
-	public Collection<? extends Object> getTabuProperties() {
+	public Collection<? extends Object> getPlanningEntities() {
 		return slots;
+	}
+
+	@Override
+	public Collection<? extends Object> getPlanningValues() {
+		List<Match> matches = new ArrayList<>();
+		for (Slot s: slots) matches.add(s.getMatch());
+		return matches;
 	}
 
 }

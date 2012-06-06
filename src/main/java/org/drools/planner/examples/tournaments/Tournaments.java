@@ -61,8 +61,10 @@ public final class Tournaments {
 						.getBestSolution();
 				if (bestSolution != null) {
 					HardAndSoftScore score = (HardAndSoftScore) bestSolution.getScore();
-					System.out.printf("Score: %d hard/%d soft%n",
-							score.getHardScore(), score.getSoftScore());
+					if (score != null) {
+						System.out.printf("Score: %d hard/%d soft%n",
+								score.getHardScore(), score.getSoftScore());
+					}
 				}
 			}
 		}
